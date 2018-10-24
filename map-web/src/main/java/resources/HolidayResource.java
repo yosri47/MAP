@@ -3,7 +3,9 @@ package resources;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,14 +17,17 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Holiday;
-import services.HolidayService;
+import interfaces.HolidayServiceLocal;
 
 @Path("holidays")
+@RequestScoped
 public class HolidayResource {
-	HolidayService hs;
+	@EJB(beanName="HolidayService")
+	private HolidayServiceLocal hs;
+	
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Holiday h)
 	{
 		if(h==null){
@@ -35,10 +40,9 @@ public class HolidayResource {
 	}
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchEmploye(@QueryParam(value="startdate")String startDate,@QueryParam(value="enddate")String endDate,@QueryParam(value="id")String idH)
 	{
-		if(idH != null) {
+		/*if(idH != null) {
 			int id = Integer.parseInt(idH);
 			Holiday h = new Holiday();
 			h.setHolidayId(id);
@@ -61,7 +65,8 @@ public class HolidayResource {
 			//TODO
 			//return Response.status(Status.FOUND).entity(employes).build();
 		}
-		return Response.status(Status.OK).entity("TODO").build();
+		*/
+		return Response.status(Status.BAD_GATEWAY).entity("AAAAAAAAAAAAAAAAAAAAA").build();
 
 	}
 	

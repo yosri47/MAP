@@ -4,7 +4,7 @@ import javax.ejb.Local;
 
 import entities.Skill;
 @Local
-public interface SkillServiceRemote {
+public interface SkillServiceLocal {
 	public void persistSkill(Skill skill);
 	public Skill findSkill(int id);
 	public void removeSkill(Skill skill);

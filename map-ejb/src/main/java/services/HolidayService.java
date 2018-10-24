@@ -4,9 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Holiday;
-import interfaces.HolidayServiceRemote;
+import interfaces.HolidayServiceLocal;
 
-public class HolidayService implements HolidayServiceRemote {
+public class HolidayService implements HolidayServiceLocal {
 
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;

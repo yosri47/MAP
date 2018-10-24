@@ -4,7 +4,7 @@ import javax.ejb.Local;
 
 import entities.Holiday;
 @Local
-public interface HolidayServiceRemote {
+public interface HolidayServiceLocal {
 	public void persistHoliday(Holiday holiday);
 	public Holiday findHoliday(int id);
 	public void removeHoliday(Holiday holiday);

@@ -1,8 +1,10 @@
 package interfaces;
 
-import entities.Leave;
+import javax.ejb.Local;
 
-public interface LeaveServiceRemote {
+import entities.Leave;
+@Local
+public interface LeaveServiceLocal {
 	public void persistLeave(Leave leave);
 	public Leave findLeave(int id);
 	public void removeLeave(Leave leave);

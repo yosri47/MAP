@@ -5,9 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Skill;
-import interfaces.SkillServiceRemote;
+import interfaces.SkillServiceLocal;
 @Stateless
-public class SkillService implements SkillServiceRemote {
+public class SkillService implements SkillServiceLocal {
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 

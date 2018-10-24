@@ -1,8 +1,10 @@
 package interfaces;
 
-import entities.Ressource;
+import javax.ejb.Local;
 
-public interface RessourceServiceRemote {
+import entities.Ressource;
+@Local
+public interface RessourceServiceLocal {
 	public void persistRessource(Ressource res);
 	public Ressource findRessource(int id);
 	public void removeRessource(Ressource res);

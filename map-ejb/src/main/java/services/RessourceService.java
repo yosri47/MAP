@@ -5,9 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Ressource;
-import interfaces.RessourceServiceRemote;
+import interfaces.RessourceServiceLocal;
 @Stateless
-public class RessourceService implements RessourceServiceRemote {
+public class RessourceService implements RessourceServiceLocal {
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 

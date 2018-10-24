@@ -1,8 +1,10 @@
 package interfaces;
 
-import entities.Resume;
+import javax.ejb.Local;
 
-public interface ResumeServiceRemote {
+import entities.Resume;
+@Local
+public interface ResumeServiceLocal {
 	public void persistResume(Resume res);
 	public Resume findResume(int id);
 	public void removeResume(Resume res);
