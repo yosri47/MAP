@@ -40,7 +40,7 @@ public class HolidayService implements HolidayServiceLocal {
 	public List<Holiday> searchByName(String name) {
 		
 		TypedQuery<Holiday> query = em.createQuery("SELECT h FROM Holiday h where h.name LIKE CONCAT('%',:name,'%')",Holiday.class);
-		return query.getResultList();
+		return query.setParameter("name", name).getResultList();
 	}
 	@Override
 	public List<Holiday> searchByStartDate(String startDate) {
