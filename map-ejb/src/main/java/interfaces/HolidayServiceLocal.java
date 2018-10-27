@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import entities.Holiday;
@@ -7,10 +9,10 @@ import entities.Holiday;
 public interface HolidayServiceLocal {
 	public void persistHoliday(Holiday holiday);
 	public Holiday findHoliday(int id);
-	public void removeHoliday(Holiday holiday);
 	public Holiday mergeHoliday(Holiday holiday);
-	public void refreshHoliday(Holiday holiday);
-	public void flush();
-	public void clear();
 	public boolean contains(Holiday holiday);
+	public List<Holiday> searchByName(String name);
+	public List<Holiday> searchByStartDate(String startDate);
+	public List<Holiday> listAll();
+	public int removeHolidayById(String id);
 }
