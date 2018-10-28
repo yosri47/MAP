@@ -20,7 +20,7 @@ import interfaces.ResumeServiceLocal;
 @Path("resumes")
 @RequestScoped
 public class ResumeResource {
-	@EJB(beanName = "ResumeServe")
+	@EJB(beanName = "ResumeService")
 	private ResumeServiceLocal rs;
 
 	@POST

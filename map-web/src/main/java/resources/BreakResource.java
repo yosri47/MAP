@@ -3,7 +3,6 @@ package resources;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -14,25 +13,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import entities.Holiday;
-import entities.Leave;
-import interfaces.LeaveServiceLocal;
-import services.LeaveService;
+import entities.Break;
+import interfaces.BreakServiceLocal;
 
 @Path("leaves")
 @RequestScoped
-public class LeaveResource {
-	@EJB(beanName="LeaveService")
-	private LeaveServiceLocal ls;	
+public class BreakResource {
+	@EJB(beanName="BreakService")
+	private BreakServiceLocal ls;
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response requestLeave(Leave l)
+	public Response requestBreak(Break l)
 	{
 		if(l!=null)
 		{
 			l.setGranted(false);
-			ls.persistLeave(l);
+			ls.persistBreak(l);
 			return Response.status(Status.CREATED).entity("OK: "+l.getLeaveId()+" requested").build();
 		}else{
 			return Response.status(Status.NOT_ACCEPTABLE).entity("ERREUR D AJOUT").build();
@@ -40,21 +37,21 @@ public class LeaveResource {
 	}
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateLeave(Leave l)
+	public Response updateBreak(Break l)
 	{
-		ls.mergeLeave(l);
+		ls.mergeBreak(l);
 		return Response.status(Status.OK).entity("Holiday modified").build();
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response ListLeaves(@QueryParam(value="id") String id,
+	public Response ListBreaks(@QueryParam(value="id") String id,
 			@QueryParam(value="startDate") String startDate, @QueryParam(value="endDate") String endDate,
 			@QueryParam(value="isGranted") String isGranted, @QueryParam(value="resource")String ressource)
 	{
 		if(id != null){
 			int idL = Integer.parseInt(id);
-			return Response.status(Status.OK).entity(ls.findLeave(idL)).build();
+			return Response.status(Status.OK).entity(ls.findBreak(idL)).build();
 		}else if(startDate != null) {
 				return Response.status(Status.OK).entity(ls.searchByStartDate(startDate)).build();
 		}else if(endDate != null){

@@ -2,15 +2,15 @@ package services;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import entities.Ressource;
 import entities.Resume;
 import interfaces.ResumeServiceLocal;
-
+@Stateless
 public class ResumeService implements ResumeServiceLocal {
 
 	@PersistenceContext(unitName="pidev-ejb")
