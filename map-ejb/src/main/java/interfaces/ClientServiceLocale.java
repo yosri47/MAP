@@ -19,4 +19,6 @@ public interface ClientServiceLocale {
 	public List<Client> afficherClients();
 	public Client afficherClient(int id );
 	
+	public List<Client> searchClientByName(String name);
+	
 }

@@ -13,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -62,7 +63,7 @@ public class ClientRessource {
 	
 	@DELETE
 	@Path("{id}")
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteClient(@PathParam(value = "id") String id){
 		
 		 cs.removeClient(Integer.parseInt(id));
@@ -80,5 +81,87 @@ public class ClientRessource {
 
 		return Response.status(Status.ACCEPTED).entity(cl).build();
 	}
+	
+	@PUT
+	@Path("{id}/{champ}/{newValeur}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateClient(@PathParam(value = "id") String id
+			,@PathParam(value = "champ") String champ,@PathParam(value = "newValeur") String newValeur) 
+	{
+            
+		 if (champ.equals("name")){
+			Client a = cs.findClient(Integer.parseInt(id));	
+			a.setName(newValeur);
+			cs.mergeClient(a);
+			return Response.status(Status.CREATED).entity("Name Updated").build(); }
+		 
+		 if (champ.equals("emailAddress")){
+				Client a = cs.findClient(Integer.parseInt(id));	
+				a.setEmailAddress(newValeur);
+				cs.mergeClient(a);
+				return Response.status(Status.ACCEPTED).entity("email Address Updated").build(); }
+		 
+		 if (champ.equals("clientAddress")){
+				Client a = cs.findClient(Integer.parseInt(id));	
+				a.setClientAddress(newValeur);
+				cs.mergeClient(a);
+				return Response.status(Status.ACCEPTED).entity("Client Address Updated").build(); }
+		 
+		
+		
 
-}
+		return Response.status(Status.BAD_REQUEST).entity("Client NonUpdated").build(); 
+
+	}
+	
+	@PUT
+	@Path("Password/{id}/{password}/{comfirmedpassword}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateClientPassword(@PathParam(value = "id") String id
+			,@PathParam(value = "password") String password,@PathParam(value = "comfirmedpassword") String comfirmedpassword) 
+	{
+            
+		   if (password.equals(comfirmedpassword)){
+			Client a = cs.findClient(Integer.parseInt(id));	
+			a.setPassword(password);
+			a.setConfirmPassword(comfirmedpassword);
+			
+			cs.mergeClient(a);
+			return Response.status(Status.CREATED).entity("password Updated succesfully").build(); }
+		 
+		
+
+
+		return Response.status(Status.BAD_REQUEST).entity("Please type same comfirmed password").build(); 
+
+	}
+	
+	@GET
+	@Path("name/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchByName(@PathParam(value = "name") String name) {
+		
+		if (!cs.searchClientByName(name).isEmpty())
+			return Response.ok(cs.searchClientByName(name)).build();
+		return Response.status(Status.NOT_FOUND).build();
+	}
+	
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateClient(Client a ) 
+	{
+		
+		cs.mergeClient(a);
+		
+		return Response.status(Status.CREATED).entity("Client Updated succesfully").build(); }
+
+        
+
+	}
+	
+	
+	
+	
+
+

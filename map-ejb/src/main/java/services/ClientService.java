@@ -12,10 +12,11 @@ import entities.Client;
 import interfaces.ClientServiceLocale;
 import interfaces.ClientServiceRemote;
 
+
 @Stateless
 public class ClientService implements ClientServiceLocale{
 
-	@PersistenceContext(unitName="pidev-ejb")
+	@PersistenceContext(unitName="map-ejb")
 	EntityManager em;
 	
 	@Override
@@ -37,7 +38,9 @@ public class ClientService implements ClientServiceLocale{
 	}
 	@Override
 	public Client mergeClient(Client client) {
-		return em.merge(client);
+		Client c = this.findClient(client.getUserId());
+		c = client ;
+		return em.merge(c);
 	}
 	@Override
 	public void refreshClient(Client client) {
@@ -65,6 +68,13 @@ public class ClientService implements ClientServiceLocale{
 	public Client afficherClient(int id) {
 		
 		return em.find(Client.class, id);
+	}
+	@Override
+	public List<Client> searchClientByName(String name) {
+		
+		return em.createQuery("select c from Client c where "
+				+ "c.name=:namee", Client.class)
+				.setParameter("namee", name).getResultList();
 	}
 
 

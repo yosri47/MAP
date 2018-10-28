@@ -5,18 +5,29 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 public class Client extends User implements Serializable{
 	@Enumerated(EnumType.STRING)
+
 	private ClientType clientType;
 	
 	@Enumerated(EnumType.STRING)
+
 	private ClientCategory clientCategory;
-	
+
 	private String clientLogo;
+
 	private String clientNote;
+
 	private String clientAddress;
+	
 	public Client() {
 		super();
 	}
@@ -35,24 +46,28 @@ public class Client extends User implements Serializable{
 	public void setClientType(ClientType clientType) {
 		this.clientType = clientType;
 	}
+
 	public ClientCategory getClientCategory() {
 		return clientCategory;
 	}
 	public void setClientCategory(ClientCategory clientCategory) {
 		this.clientCategory = clientCategory;
 	}
+
 	public String getClientLogo() {
 		return clientLogo;
 	}
 	public void setClientLogo(String clientLogo) {
 		this.clientLogo = clientLogo;
 	}
+
 	public String getClientNote() {
 		return clientNote;
 	}
 	public void setClientNote(String clientNote) {
 		this.clientNote = clientNote;
 	}
+
 	public String getClientAddress() {
 		return clientAddress;
 	}

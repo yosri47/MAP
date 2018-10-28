@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -16,13 +21,20 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Project implements Serializable{
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int projectId;
+	
+	
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
-	private String projectType;
+	
+	
+	@Enumerated(EnumType.STRING)
+	private ProjectType projectType;
 	private double profitability;
 	private String note;
 	private String address;
@@ -43,7 +55,7 @@ public class Project implements Serializable{
 	public Project() {
 		super();
 	}
-	public Project(int projectId, Date startDate, Date endDate, String projectType, double profitability, String note,
+	public Project(int projectId, Date startDate, Date endDate, ProjectType projectType, double profitability, String note,
 			String address, int levioResources, int otherResources, Client owner, List<Ressource> ressourcesList,
 			List<Mandate> mandates, List<Skill> skillsRequired, Organigram organigram) {
 		super();
@@ -80,10 +92,11 @@ public class Project implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public String getProjectType() {
+	
+	public ProjectType getProjectType() {
 		return projectType;
 	}
-	public void setProjectType(String projectType) {
+	public void setProjectType(ProjectType projectType) {
 		this.projectType = projectType;
 	}
 	public double getProfitability() {
