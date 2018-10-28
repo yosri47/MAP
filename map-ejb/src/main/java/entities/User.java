@@ -5,22 +5,33 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.JOINED)
+
 public class User implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	protected int userId;
+
 	protected String emailAddress;
+
 	protected String password;
+
 	protected String confirmPassword;
+
 	protected String name;
 	@Enumerated(EnumType.STRING)
+
 	protected UserType userType;
+	
 	public User() {
 		super();
 	}

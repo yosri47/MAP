@@ -1,8 +1,11 @@
 package entities;
 
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -10,6 +13,7 @@ import javax.persistence.OneToOne;
 public class Message implements Serializable{
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int messageId;
 	private String object;
 	private String content;
@@ -30,6 +34,24 @@ public class Message implements Serializable{
 		this.type = type;
 		this.from = from;
 		this.to = to;
+	}
+	
+
+	public Message(int messageId, String object, String type) {
+		super();
+		this.messageId = messageId;
+		this.object = object;
+		this.type = type;
+	}
+	
+	public Message(String object, String type) {
+		super();
+		this.object = object;
+		this.type = type;
+	}
+	public Message(int messageId) {
+		super();
+		this.messageId = messageId;
 	}
 	public int getMessageId() {
 		return messageId;

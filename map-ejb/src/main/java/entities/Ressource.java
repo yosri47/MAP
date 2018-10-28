@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,6 +25,8 @@ public class Ressource extends User implements Serializable{
 	private double rate;
 	private String contractType;
 	private boolean isOnLeave;
+	@Column(columnDefinition = "boolean default true")
+	private boolean isActive;
 	
 	@OneToOne
 	@JoinColumn(name="leaveId")
@@ -37,9 +40,18 @@ public class Ressource extends User implements Serializable{
 	public Ressource() {
 		super();
 	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public Ressource(String photo, AvailabilityType availability, String sector, int seniority, String note,
 			double rate, String contractType, boolean isOnLeave, Leave leave, Resume resume,
-			Mandate mandate) {
+			Mandate mandate,boolean isActive) {
 		super();
 		this.photo = photo;
 		this.availability = availability;
@@ -52,6 +64,7 @@ public class Ressource extends User implements Serializable{
 		this.leave = leave;
 		this.resume = resume;
 		this.mandate = mandate;
+		this.isActive=isActive;
 	}
 	public String getPhoto() {
 		return photo;

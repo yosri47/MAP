@@ -4,9 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Leave;
-import interfaces.LeaveServiceRemote;
+import interfaces.LeaveServiceLocal;
 
-public class LeaveService implements LeaveServiceRemote {
+public class LeaveService implements LeaveServiceLocal {
 
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;

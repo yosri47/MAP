@@ -4,9 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import entities.Resume;
-import interfaces.ResumeServiceRemote;
+import interfaces.ResumeServiceLocal;
 
-public class ResumeService implements ResumeServiceRemote {
+public class ResumeService implements ResumeServiceLocal {
 
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
