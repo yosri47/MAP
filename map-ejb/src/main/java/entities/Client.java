@@ -18,6 +18,8 @@ public class Client extends User implements Serializable{
 
 	private ClientType clientType;
 	
+	private String test;
+	
 	@Enumerated(EnumType.STRING)
 
 	private ClientCategory clientCategory;
