@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +23,10 @@ public class Leave implements Serializable{
 	private Date endDate;
 	@OneToOne(mappedBy="leave")
 	private Ressource resource;
-	
+	@Column(columnDefinition = "boolean default false")
 	private boolean isGranted;
+	@Column(columnDefinition = "boolean default false")
+	private boolean taken;
 
 	public Leave() {
 		super();
@@ -36,6 +39,15 @@ public class Leave implements Serializable{
 		this.endDate = endDate;
 		this.resource = resource;
 		this.isGranted = isGranted;
+	}
+
+	
+	public boolean isTaken() {
+		return taken;
+	}
+
+	public void setTaken(boolean taken) {
+		this.taken = taken;
 	}
 
 	public int getLeaveId() {
