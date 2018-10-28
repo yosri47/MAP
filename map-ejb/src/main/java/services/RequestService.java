@@ -17,7 +17,7 @@ import interfaces.RequestLocal;
 @Stateless 
 
 public class RequestService implements RequestLocal {
-	@PersistenceContext(unitName="timesheetDS")
+	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 
 	@Override

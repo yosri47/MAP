@@ -17,7 +17,7 @@ import interfaces.messageRemote;
 @Stateless 
 public class MessageService  implements messageRemote{
 	
-	@PersistenceContext(unitName="timesheetDS")
+	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 	
 	MessageService se ;
