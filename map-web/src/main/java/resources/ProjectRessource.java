@@ -30,6 +30,9 @@ public class ProjectRessource {
 
 	@EJB(beanName = "ProjectService")
 	ProjectServiceLocal ps ;
+	
+	@EJB(beanName = "ClientService")
+	ClientServiceLocale cs;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -93,9 +96,29 @@ public class ProjectRessource {
 		ps.mergeProject(p);
 		
 		return Response.status(Status.CREATED).entity("Project Updated succesfully").build(); }
+       
+	   @PUT
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   @Path("{idClient}/{idProject}")
+       public Response SetProjectOwner(@PathParam(value = "idClient") String idClient
+   			,@PathParam(value = "idProject") String idProject ) {
+		   
+		   // selectionner le projet dabord
+		   
+		   Project p = ps.findProject(Integer.parseInt(idProject));
+		   
+		   //selectionner le client et valider affectation
+		   
+		   p.setOwner(cs.findClient(Integer.parseInt(idClient)));
+		   
+		   
+			return Response.status(Status.CREATED).entity("Project affected to client").build(); 
+			
+	   }
+	   }
 
-        
+	
 
-	}
+
 
 

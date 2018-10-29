@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -37,6 +38,11 @@ public class Ressource extends User implements Serializable{
 	@OneToOne
 	@JoinColumn(name="mandateId")
 	private Mandate mandate;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="projectId")
+	private Project project;
 	public Ressource() {
 		super();
 	}

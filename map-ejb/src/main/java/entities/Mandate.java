@@ -29,6 +29,7 @@ public class Mandate implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="projectId")
 	private Project project;
+	
 	public Mandate() {
 		super();
 	}
