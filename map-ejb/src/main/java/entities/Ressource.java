@@ -19,6 +19,7 @@ public class Ressource extends User implements Serializable{
 	private String note;
 	private double rate;
 	private String contractType;
+	@Column(columnDefinition= "boolean default false")
 	private boolean isOnLeave;
 	@Column(columnDefinition = "boolean default true")
 	private boolean isActive;

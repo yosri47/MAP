@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,9 +17,9 @@ public class Resume implements Serializable{
 	private int resumeId;
 	private String description;
 	private String note;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Skill> skills;
-	@OneToOne(mappedBy="resume")
+	@OneToOne
 	private Ressource owner;
 	public Resume() {
 		super();
