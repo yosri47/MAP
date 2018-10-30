@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,10 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 @Entity
-public class Leave implements Serializable{
+public class Break implements Serializable{
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int leaveId;
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
@@ -22,20 +24,32 @@ public class Leave implements Serializable{
 	private Date endDate;
 	@OneToOne(mappedBy="leave")
 	private Ressource resource;
-	
 	private boolean isGranted;
+	private boolean isTaken;
 
-	public Leave() {
+	public Break() {
 		super();
 	}
 
-	public Leave(int leaveId, Date startDate, Date endDate, Ressource resource, boolean isGranted) {
+	public Break(int leaveId, Date startDate, Date endDate, Ressource resource, boolean isGranted,boolean isTaken) {
 		super();
 		this.leaveId = leaveId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.resource = resource;
 		this.isGranted = isGranted;
+		this.isTaken = isTaken;
+	}
+
+	
+
+
+	public boolean isTaken() {
+		return isTaken;
+	}
+
+	public void setTaken(boolean isTaken) {
+		this.isTaken = isTaken;
 	}
 
 	public int getLeaveId() {
@@ -98,7 +112,7 @@ public class Leave implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Leave other = (Leave) obj;
+		Break other = (Break) obj;
 		if (endDate == null) {
 			if (other.endDate != null)
 				return false;

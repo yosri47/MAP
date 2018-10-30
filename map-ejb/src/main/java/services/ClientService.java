@@ -16,7 +16,7 @@ import interfaces.ClientServiceRemote;
 @Stateless
 public class ClientService implements ClientServiceLocale{
 
-	@PersistenceContext(unitName="map-ejb")
+	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 	
 	@Override
