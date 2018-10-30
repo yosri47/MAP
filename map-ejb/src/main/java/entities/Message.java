@@ -32,15 +32,61 @@ public class Message implements Serializable{
 	@JoinColumn (name="clrecu" ,referencedColumnName="userId")
 	private Client clrecu;
 
+	@ManyToOne
+	@JoinColumn (name="rssend" ,referencedColumnName="userId" )
+	private Ressource rssend;
+	@ManyToOne
+	@JoinColumn (name="rsrecu" ,referencedColumnName="userId")
+	private Ressource rsrecu;
 
-	public Message(String object, String content, String type, Client clsend, Client clrecu) {
+	
+	
+
+
+	public Message(String object, String content, String type,Ressource rssend, Client clrecu) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.clrecu = clrecu;
+		this.rssend = rssend;
+	}
+
+	public Message(String object, String content, String type, Ressource rssend, Ressource rsrecu) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.rssend = rssend;
+		this.rsrecu = rsrecu;
+	}
+
+	public Message(String object, String content, String type, Client clsend, Ressource rsrecu) {
 		super();
 		this.object = object;
 		this.content = content;
 		this.type = type;
 		this.clsend = clsend;
-		this.clrecu = clrecu;
+		this.rsrecu = rsrecu;
 	}
+
+	public Ressource getRssend() {
+		return rssend;
+	}
+
+	public void setRssend(Ressource rssend) {
+		this.rssend = rssend;
+	}
+
+	public Ressource getRsrecu() {
+		return rsrecu;
+	}
+
+	public void setRsrecu(Ressource rsrecu) {
+		this.rsrecu = rsrecu;
+	}
+
+
 
 	public Client getClsend() {
 		return clsend;

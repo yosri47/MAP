@@ -29,6 +29,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ressource extends User implements Serializable{
 	private String photo;
@@ -56,10 +58,36 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="mandateId")
 	private Mandate mandate;
 	
-
+	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>rssends ;
+   
+	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>recu ;
 	
 	
 
+
+	public Ressource(int userId) {
+		super(userId);
+	}
+    @JsonIgnore
+
+	public Set<Message> getRssends() {
+		return rssends;
+	}
+
+	public void setRssends(Set<Message> rssends) {
+		this.rssends = rssends;
+	}
+    @JsonIgnore
+
+	public Set<Message> getRecu() {
+		return recu;
+	}
+
+	public void setRecu(Set<Message> recu) {
+		this.recu = recu;
+	}
 
 	public Ressource() {
 		super();
