@@ -6,11 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-<<<<<<< HEAD
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-=======
->>>>>>> refs/remotes/origin/master
 import javax.persistence.OneToOne;
 
 @Entity
