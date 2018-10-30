@@ -9,6 +9,7 @@ public interface UpdateServiceLocal {
 	//Generer des données dans la base de donnée TODO
 	public void generateSkills();
 	public void generateResources();
+	public void generateUsers();
 	public void generateResumes();
 
 }

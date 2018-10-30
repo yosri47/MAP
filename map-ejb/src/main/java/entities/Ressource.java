@@ -41,7 +41,7 @@ public class Ressource extends User implements Serializable{
 	private int seniority;
 	private String note;
 	private double rate;
-	private String contractType;
+	private ContractType contractType;
 	@Column(columnDefinition= "boolean default false")
 	private boolean isOnLeave;
 	@Column(columnDefinition = "boolean default true")
@@ -163,12 +163,12 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public String getContractType() {
+	public ContractType getContractType() {
 		return contractType;
 	}
 
 
-	public void setContractType(String contractType) {
+	public void setContractType(ContractType contractType) {
 		this.contractType = contractType;
 	}
 
@@ -234,7 +234,7 @@ public class Ressource extends User implements Serializable{
 
 
 	public Ressource(String photo, AvailabilityType availability, String sector, int seniority, String note,
-			double rate, String contractType, boolean isOnLeave, boolean isActive, Break leave, Resume resume,
+			double rate, ContractType contractType, boolean isOnLeave, boolean isActive, Break leave, Resume resume,
 			Set<Mandate> mandates, Project project) {
 		super();
 		this.photo = photo;
@@ -340,6 +340,13 @@ public class Ressource extends User implements Serializable{
 			return false;
 		return true;
 	}
+	public Mandate getMandate() {
+		return mandate;
+	}
+	public void setMandate(Mandate mandate) {
+		this.mandate = mandate;
+	}
+	
 	
 	
 	
