@@ -92,10 +92,6 @@ public class Ressource extends User implements Serializable{
 	public Ressource() {
 		super();
 	}
-
-	
-	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
-	private Set<Mandate> mandates = new HashSet<>();
 	
 	
 	@ManyToOne
@@ -213,15 +209,6 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public Set<Mandate> getMandates() {
-		return mandates;
-	}
-
-
-	public void setMandates(Set<Mandate> mandates) {
-		this.mandates = mandates;
-	}
-
 
 	public Project getProject() {
 		return project;
@@ -248,7 +235,6 @@ public class Ressource extends User implements Serializable{
 		this.isActive = isActive;
 		this.leave = leave;
 		this.resume = resume;
-		this.mandates = mandates;
 		this.project = project;
 	}
 
@@ -265,7 +251,6 @@ public class Ressource extends User implements Serializable{
 		result = prime * result + (isActive ? 1231 : 1237);
 		result = prime * result + (isOnLeave ? 1231 : 1237);
 		result = prime * result + ((leave == null) ? 0 : leave.hashCode());
-		result = prime * result + ((mandates == null) ? 0 : mandates.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
 		result = prime * result + ((project == null) ? 0 : project.hashCode());
@@ -303,11 +288,6 @@ public class Ressource extends User implements Serializable{
 			if (other.leave != null)
 				return false;
 		} else if (!leave.equals(other.leave))
-			return false;
-		if (mandates == null) {
-			if (other.mandates != null)
-				return false;
-		} else if (!mandates.equals(other.mandates))
 			return false;
 		if (note == null) {
 			if (other.note != null)
