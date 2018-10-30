@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Client;
+import entities.Mandate;
 import entities.Project;
 import interfaces.ClientServiceLocale;
 import interfaces.OrganigramServiceLocale;
@@ -35,6 +36,9 @@ public class ProjectRessource {
 
 	@EJB(beanName = "ProjectService")
 	ProjectServiceLocal ps ;
+	
+	@EJB(beanName = "MandateService")
+	ProjectServiceLocal ms ;
 	
 	@EJB(beanName = "ClientService")
 	ClientServiceLocale cs;
@@ -150,19 +154,8 @@ public class ProjectRessource {
 			
 	   }
 	   
-	  /* public Response CalculateRentabilite(Project p){
-		   
-		   
-		   TypedQuery<Mandate> query = em.createQuery("Select c from mandate c",Client.class);
-			List<Client> ls = query.getResultList();
-			return ls ;
-		   return
-		   
-		   
-		   
-		   
-	   }
-	   */
+	  
+	  
 	   
 	   
 	   
