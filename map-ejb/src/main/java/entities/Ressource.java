@@ -54,9 +54,7 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="resumeId")
 	private Resume resume;
 
-	@OneToOne
-	@JoinColumn(name="mandateId")
-	private Mandate mandate;
+	
 	
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
@@ -64,6 +62,20 @@ public class Ressource extends User implements Serializable{
 	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>recu ;
 	
+	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
+	private Set<Mandate> mandates = new HashSet<>();
+	
+	
+	@ManyToOne
+	@JoinColumn(name="projectId")
+	private Project project;
+
+
+	
+	public Ressource() {
+		super();
+	}
+
 	
 
 
@@ -88,20 +100,6 @@ public class Ressource extends User implements Serializable{
 	public void setRecu(Set<Message> recu) {
 		this.recu = recu;
 	}
-
-	public Ressource() {
-		super();
-	}
-
-	
-	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
-	private Set<Mandate> mandates = new HashSet<>();
-	
-	
-	@ManyToOne
-	@JoinColumn(name="projectId")
-	private Project project;
-
 
 	public String getPhoto() {
 		return photo;
