@@ -106,5 +106,6 @@ public class RessourceService implements RessourceServiceLocal {
 				,Skill.class);
 		return query.setParameter("id", idR).getResultList();
 	}
+	
 
 }
