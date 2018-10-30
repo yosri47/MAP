@@ -52,4 +52,8 @@ public class RequestService implements RequestLocal {
 		return (Request) query.getSingleResult();
 	}
 	
+	
+	
+	
+	
 }

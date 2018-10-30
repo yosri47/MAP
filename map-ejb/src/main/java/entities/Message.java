@@ -7,7 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Message implements Serializable{
@@ -18,22 +23,94 @@ public class Message implements Serializable{
 	private String object;
 	private String content;
 	private String type;
+   
 	
-	@OneToOne
-	private User from;
-	@OneToOne
-	private User to;
+	@ManyToOne
+	@JoinColumn (name="clsend" ,referencedColumnName="userId" )
+	private Client clsend;
+	@ManyToOne
+	@JoinColumn (name="clrecu" ,referencedColumnName="userId")
+	private Client clrecu;
+
+	@ManyToOne
+	@JoinColumn (name="rssend" ,referencedColumnName="userId" )
+	private Ressource rssend;
+	@ManyToOne
+	@JoinColumn (name="rsrecu" ,referencedColumnName="userId")
+	private Ressource rsrecu;
+
+	
+	
+
+
+	public Message(String object, String content, String type,Ressource rssend, Client clrecu) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.clrecu = clrecu;
+		this.rssend = rssend;
+	}
+
+	public Message(String object, String content, String type, Ressource rssend, Ressource rsrecu) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.rssend = rssend;
+		this.rsrecu = rsrecu;
+	}
+
+	public Message(String object, String content, String type, Client clsend, Ressource rsrecu) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.clsend = clsend;
+		this.rsrecu = rsrecu;
+	}
+
+	public Ressource getRssend() {
+		return rssend;
+	}
+
+	public void setRssend(Ressource rssend) {
+		this.rssend = rssend;
+	}
+
+	public Ressource getRsrecu() {
+		return rsrecu;
+	}
+
+	public void setRsrecu(Ressource rsrecu) {
+		this.rsrecu = rsrecu;
+	}
+
+
+
+	public Client getClsend() {
+		return clsend;
+	}
+	 
+	public void setClsend(Client clsend) {
+		this.clsend = clsend;
+	}
+	public Client getClrecu() {
+		return clrecu;
+	}
+	public void setClrecu(Client clrecu) {
+		this.clrecu = clrecu;
+	}
 	public Message() {
 		super();
 	}
-	public Message(int messageId, String object, String content, String type, User from, User to) {
+	public Message(int messageId, String object, String content, String type) {
 		super();
 		this.messageId = messageId;
 		this.object = object;
 		this.content = content;
 		this.type = type;
-		this.from = from;
-		this.to = to;
+
 	}
 	
 
@@ -77,27 +154,15 @@ public class Message implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public User getFrom() {
-		return from;
-	}
-	public void setFrom(User from) {
-		this.from = from;
-	}
-	public User getTo() {
-		return to;
-	}
-	public void setTo(User to) {
-		this.to = to;
-	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((from == null) ? 0 : from.hashCode());
+
 		result = prime * result + messageId;
 		result = prime * result + ((object == null) ? 0 : object.hashCode());
-		result = prime * result + ((to == null) ? 0 : to.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -115,11 +180,7 @@ public class Message implements Serializable{
 				return false;
 		} else if (!content.equals(other.content))
 			return false;
-		if (from == null) {
-			if (other.from != null)
-				return false;
-		} else if (!from.equals(other.from))
-			return false;
+		
 		if (messageId != other.messageId)
 			return false;
 		if (object == null) {
@@ -127,11 +188,7 @@ public class Message implements Serializable{
 				return false;
 		} else if (!object.equals(other.object))
 			return false;
-		if (to == null) {
-			if (other.to != null)
-				return false;
-		} else if (!to.equals(other.to))
-			return false;
+		
 		if (type == null) {
 			if (other.type != null)
 				return false;

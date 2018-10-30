@@ -17,6 +17,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -74,68 +75,43 @@ public class ClientRessource {
 	
 
 	@GET
-	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response afficherList(@PathParam(value = "id") int id) {
-		Client cl = cs.afficherClient(id);
-
-		return Response.status(Status.ACCEPTED).entity(cl).build();
-	}
-	
-	@PUT
-	@Path("{id}/{champ}/{newValeur}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateClient(@PathParam(value = "id") String id
-			,@PathParam(value = "champ") String champ,@PathParam(value = "newValeur") String newValeur) 
-	{
-            
-		 if (champ.equals("name")){
-			Client a = cs.findClient(Integer.parseInt(id));	
-			a.setName(newValeur);
-			cs.mergeClient(a);
-			return Response.status(Status.CREATED).entity("Name Updated").build(); }
-		 
-		 if (champ.equals("emailAddress")){
-				Client a = cs.findClient(Integer.parseInt(id));	
-				a.setEmailAddress(newValeur);
-				cs.mergeClient(a);
-				return Response.status(Status.ACCEPTED).entity("email Address Updated").build(); }
-		 
-		 if (champ.equals("clientAddress")){
-				Client a = cs.findClient(Integer.parseInt(id));	
-				a.setClientAddress(newValeur);
-				cs.mergeClient(a);
-				return Response.status(Status.ACCEPTED).entity("Client Address Updated").build(); }
-		 
+	public Response afficherList(@QueryParam(value = "id") int id,@QueryParam(value = "name") String name) {
 		
-		
+		if(id ==0 && name.equals(null)) 
+		{
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		if(id >0 && name.equals(null)) 
+	  {
+			Client cl = cs.afficherClient(id);
 
-		return Response.status(Status.BAD_REQUEST).entity("Client NonUpdated").build(); 
+			return Response.status(Status.ACCEPTED).entity(cl).build(); 
+	  }
+		if(id ==0 && name.equals(name))
+		{
+			List<Client> ls = cs.searchClientByName(name);
 
-	}
-	
-	@PUT
-	@Path("Password/{id}/{password}/{comfirmedpassword}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateClientPassword(@PathParam(value = "id") String id
-			,@PathParam(value = "password") String password,@PathParam(value = "comfirmedpassword") String comfirmedpassword) 
-	{
-            
-		   if (password.equals(comfirmedpassword)){
-			Client a = cs.findClient(Integer.parseInt(id));	
-			a.setPassword(password);
-			a.setConfirmPassword(comfirmedpassword);
+			return Response.status(Status.ACCEPTED).entity(ls).build(); 
 			
-			cs.mergeClient(a);
-			return Response.status(Status.CREATED).entity("password Updated succesfully").build(); }
-		 
+		}
+		if(id >0 && name.equals(name))
+		{
+			Client cl1 = cs.afficherClient(id);
+
+			return Response.status(Status.ACCEPTED).entity(cl1).build(); 
+			
+		}
 		
-
-
-		return Response.status(Status.BAD_REQUEST).entity("Please type same comfirmed password").build(); 
-
+		return Response.status(Status.NOT_FOUND).build();
+			
+		
 	}
 	
+	
+	
+	
+/*	
 	@GET
 	@Path("name/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -145,7 +121,7 @@ public class ClientRessource {
 			return Response.ok(cs.searchClientByName(name)).build();
 		return Response.status(Status.NOT_FOUND).build();
 	}
-	
+	*/
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
