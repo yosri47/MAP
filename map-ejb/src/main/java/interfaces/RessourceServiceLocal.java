@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.Local;
 
 import entities.Ressource;
+import entities.Resume;
+import entities.Skill;
 @Local
 public interface RessourceServiceLocal {
 	public void persistRessource(Ressource res);
@@ -19,6 +21,8 @@ public interface RessourceServiceLocal {
 	public List<Ressource> getRessourceByRate(String rate);
 	public List<Ressource> getRessourceBySeniority(String seniority);
 	public List<Ressource> getRessourceByName(String name);
+	public Resume getResourceResume(String id);
+	public List<Skill> getResourceSkills(String id);
 	
 
 }
