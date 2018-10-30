@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -23,6 +24,7 @@ public interface RessourceServiceLocal {
 	public List<Ressource> getRessourceByName(String name);
 	public Resume getResourceResume(String id);
 	public List<Skill> getResourceSkills(String id);
+	public List<Object[]> rankResourcesBySkillNumber();
 	
 
 }

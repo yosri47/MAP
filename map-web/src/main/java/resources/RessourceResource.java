@@ -53,6 +53,7 @@ public class RessourceResource {
 	}
 
 	@GET
+	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listRessource(@QueryParam(value = "name") String name,
 			@QueryParam(value = "seniority") String seniority, @QueryParam(value = "id") String id,
@@ -82,7 +83,6 @@ public class RessourceResource {
 	public Response listResourceSkills(@PathParam(value="id")String id)
 	{
 		return Response.status(Status.OK).entity(rs.getResourceSkills(id)).build();
-		
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -91,4 +91,15 @@ public class RessourceResource {
 	{
 		return Response.status(Status.OK).entity(rs.getResourceResume(id)).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/rank")
+	public Response rankResources(@QueryParam(value="category")String category)
+	{
+		return Response.status(Status.OK).entity(rs.rankResourcesBySkillNumber()).build();
+	}
+	
+	
+	
 }

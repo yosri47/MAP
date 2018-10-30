@@ -41,52 +41,21 @@ public class Ressource extends User implements Serializable{
 	private int seniority;
 	private String note;
 	private double rate;
+	@Enumerated(EnumType.STRING)
 	private ContractType contractType;
 	@Column(columnDefinition= "boolean default false")
 	private boolean isOnLeave;
 	@Column(columnDefinition = "boolean default true")
 	private boolean isActive;
-	
 	@OneToOne
 	@JoinColumn(name="leaveId")
 	private Break leave;
 	@OneToOne
 	@JoinColumn(name="resumeId")
 	private Resume resume;
-
-	@OneToOne
-	@JoinColumn(name="mandateId")
-	private Mandate mandate;
 	
-	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
-	private Set<Message>rssends ;
-   
-	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
-	private Set<Message>recu ;
-	
-	
-
-
 	public Ressource(int userId) {
 		super(userId);
-	}
-    @JsonIgnore
-
-	public Set<Message> getRssends() {
-		return rssends;
-	}
-
-	public void setRssends(Set<Message> rssends) {
-		this.rssends = rssends;
-	}
-    @JsonIgnore
-
-	public Set<Message> getRecu() {
-		return recu;
-	}
-
-	public void setRecu(Set<Message> recu) {
-		this.recu = recu;
 	}
 
 	public Ressource() {
@@ -320,12 +289,7 @@ public class Ressource extends User implements Serializable{
 			return false;
 		return true;
 	}
-	public Mandate getMandate() {
-		return mandate;
-	}
-	public void setMandate(Mandate mandate) {
-		this.mandate = mandate;
-	}
+	
 	
 	
 	

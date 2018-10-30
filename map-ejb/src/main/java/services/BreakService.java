@@ -77,8 +77,8 @@ public class BreakService implements BreakServiceLocal {
 	@Override
 	public List<Break> listAll() {
 		Date today = new Date();
-		TypedQuery<Break> query = em.createQuery("SELECT l FROM Break l WHERE l.endDate > :today OR l.endDate = :today",Break.class);
-		return query.setParameter("today", today).getResultList();
+		TypedQuery<Break> query = em.createQuery("SELECT l FROM Break l",Break.class);
+		return query.getResultList();
 	}
 	@Override
 	public int acceptBreak(String id) {

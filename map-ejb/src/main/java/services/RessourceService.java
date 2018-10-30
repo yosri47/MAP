@@ -1,6 +1,8 @@
 package services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,7 +47,7 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public int removeResourceById(String id) {
 		int idS = Integer.parseInt(id);
-		Query query = em.createQuery("UPDATE Skill s SET s.active = 0");
+		Query query = em.createQuery("UPDATE Ressource r SET r.isActive = 0");
 		return query.setParameter("id", idS).executeUpdate();
 	}
 	@Override
@@ -106,6 +108,16 @@ public class RessourceService implements RessourceServiceLocal {
 				,Skill.class);
 		return query.setParameter("id", idR).getResultList();
 	}
-	
+	@Override
+	public List<Object[]> rankResourcesBySkillNumber()
+	{
+		
+		TypedQuery<Object[]> q = em.createQuery(
+			    "SELECT res.name,res.resume.skills" +
+			    " FROM Ressource res"+
+			    " ORDER BY res.name", Object[].class);
+
+			return q.getResultList();
+	}
 
 }
