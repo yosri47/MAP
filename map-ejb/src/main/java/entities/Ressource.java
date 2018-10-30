@@ -1,29 +1,20 @@
 package entities;
 
 import java.io.Serializable;
-<<<<<<< HEAD
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-=======
->>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-<<<<<<< HEAD
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-=======
->>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.JoinColumn;
-<<<<<<< HEAD
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-=======
->>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.OneToOne;
 
 @Entity
