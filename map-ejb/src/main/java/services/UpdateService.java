@@ -67,13 +67,19 @@ public class UpdateService implements UpdateServiceLocal {
 							rs.mergeRessource(res);
 						}
 
-						// IF HIS LEAVE ENDED
+						// IF HE S NOT ON A LEAVE ENDED
 						else {
-							res.setAvailability(AvailabilityType.Available);
-							res.setOnLeave(false);
-							res.getLeave().setTaken(true);
-							bs.mergeBreak(res.getLeave());
-							rs.mergeRessource(res);
+							//IF HE S IN A MANDATE WORKING
+							if(res.getMandate().getStartDate().compareTo(today)
+									* res.getMandate().getEndDate().compareTo(today) >= 0){
+								res.setAvailability(AvailabilityType.Available);
+								res.setOnLeave(false);
+								res.getLeave().setTaken(true);
+								bs.mergeBreak(res.getLeave());
+								rs.mergeRessource(res);
+							}else{
+								
+							}
 						}
 					}
 					// IF HE S WORKING BUT HAS A LEAVE COMING UP
