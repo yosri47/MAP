@@ -32,7 +32,7 @@ public class UpdateService implements UpdateServiceLocal {
 
 	@Override
 	public void updateResourcesAvailability() {
-		// TODO Auto-generated method stub
+		//Query 
 		
 	}
 
