@@ -53,9 +53,14 @@ public class Project implements Serializable{
 	@JsonIgnore
 	private Set<Ressource> ressourcesList = new HashSet<>();
 	
+	
+	
 	@OneToMany(mappedBy="project",fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Mandate> mandates = new HashSet<>() ;
+	
+	
+	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Skill> skillsRequired = new HashSet<>() ; 

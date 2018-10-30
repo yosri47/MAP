@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -148,6 +149,23 @@ public class ProjectRessource {
 			return Response.status(Status.CREATED).entity("Organigram affected to client").build(); 
 			
 	   }
+	   
+	   public Response CalculateRentabilite(Project p){
+		   
+		   
+		   TypedQuery<Mandate> query = em.createQuery("Select c from mandate c",Client.class);
+			List<Client> ls = query.getResultList();
+			return ls ;
+		   return
+		   
+		   
+		   
+		   
+	   }
+	   
+	   
+	   
+	   
 	   
 	   
 	   }

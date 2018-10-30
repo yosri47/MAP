@@ -1,17 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: mafio
-=======
-<<<<<<< HEAD
-Built-By: dell
-=======
-<<<<<<< HEAD
-Built-By: mafio
-=======
-Built-By: LENOVO
->>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
->>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
->>>>>>> refs/remotes/origin/master
 Build-Jdk: 1.8.0_60
 Created-By: Maven Integration for Eclipse
 
