@@ -17,7 +17,7 @@ import interfaces.RequestLocal;
 @Stateless 
 
 public class RequestService implements RequestLocal {
-	@PersistenceContext(unitName="timesheetDS")
+	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
 
 	@Override
@@ -51,5 +51,9 @@ public class RequestService implements RequestLocal {
 		TypedQuery<Request> query = em.createQuery("select r from Request r  where r.requestId ="+req,Request.class);
 		return (Request) query.getSingleResult();
 	}
+	
+	
+	
+	
 	
 }

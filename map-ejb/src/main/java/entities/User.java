@@ -32,6 +32,19 @@ public class User implements Serializable{
 
 	protected UserType userType;
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public User(int userId) {
+		super();
+		this.userId = userId;
+	}
 	public User() {
 		super();
 	}
