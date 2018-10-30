@@ -1,32 +1,31 @@
 package entities;
 
 import java.io.Serializable;
-<<<<<<< HEAD
+
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-=======
+
 import java.util.HashSet;
 import java.util.Set;
 
->>>>>>> refs/remotes/origin/mohamed
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-<<<<<<< HEAD
+
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-=======
->>>>>>> refs/remotes/origin/mohamed
+
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-<<<<<<< HEAD
-=======
+
 import javax.persistence.ManyToOne;
->>>>>>> refs/remotes/origin/mohamed
+
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -52,7 +51,7 @@ public class Ressource extends User implements Serializable{
 	@OneToOne
 	@JoinColumn(name="resumeId")
 	private Resume resume;
-<<<<<<< HEAD
+
 	@OneToOne
 	@JoinColumn(name="mandateId")
 	private Mandate mandate;
@@ -65,8 +64,7 @@ public class Ressource extends User implements Serializable{
 	public Ressource() {
 		super();
 	}
-=======
->>>>>>> refs/remotes/origin/mohamed
+
 	
 	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
 	private Set<Mandate> mandates = new HashSet<>();
@@ -227,9 +225,7 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public Ressource() {
-		super();
-	}
+	
 
 
 	@Override

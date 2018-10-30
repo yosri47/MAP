@@ -4,14 +4,13 @@
 	<persistence-unit name="pidev-ejb">
 		<jta-data-source>java:/PIDEVDS</jta-data-source>
 		<properties>
-<<<<<<< HEAD
+
            <property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />		
 			</properties>
-=======
-			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-		</properties>
->>>>>>> refs/remotes/origin/mohamed
+
+		
+
 	</persistence-unit>
 </persistence>
