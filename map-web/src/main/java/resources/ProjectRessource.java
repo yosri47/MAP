@@ -154,14 +154,7 @@ public class ProjectRessource {
 			
 	   }
 	   
-<<<<<<< HEAD
-	   
-	   
-=======
-	  
-	  
->>>>>>> refs/remotes/origin/master
-	   
+
 	   
 	   
 	   
