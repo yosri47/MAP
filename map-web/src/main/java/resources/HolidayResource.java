@@ -1,14 +1,8 @@
 package resources;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,7 +17,6 @@ import javax.ws.rs.core.Response.Status;
 
 import entities.Holiday;
 import interfaces.HolidayServiceLocal;
-import services.HolidayService;
 
 @Path("holidays")
 @RequestScoped
@@ -68,7 +61,7 @@ public class HolidayResource {
 	}
 	@DELETE
 	@Consumes(MediaType.TEXT_PLAIN)
-	public Response deleteEmploye(@QueryParam(value="id")String id)
+	public Response deleteHoliday(@QueryParam(value="id")String id)
 	{
 		if(hs.removeHolidayById(id) > 0){
 			return Response.status(Status.OK).entity("Removed").build();

@@ -9,6 +9,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import entities.Ressource;
+import entities.Resume;
+import entities.Skill;
 import interfaces.RessourceServiceLocal;
 
 @Stateless
@@ -87,5 +89,23 @@ public class RessourceService implements RessourceServiceLocal {
 		TypedQuery<Ressource> query = em.createQuery("SELECT r FROM Ressource r WHERE r.name like CONCAT('%',:n,'%')",Ressource.class);
 		return query.setParameter("n", name).getResultList();
 	}
+
+	@Override
+	public Resume getResourceResume(String id) {
+		int idR = Integer.parseInt(id);
+		TypedQuery<Resume> query = em.createQuery("SELECT r FROM Resume r WHERE r.owner.userId = :id",Resume.class);
+		return query.setParameter("id", idR).getSingleResult();
+	}
+
+	@Override
+	public List<Skill> getResourceSkills(String id) {
+		int idR = Integer.parseInt(id);
+		TypedQuery<Skill> query = em.createQuery("SELECT s "
+				+ "FROM Resume r JOIN r.skills s "
+				+ "WHERE r.owner.userId = :id"
+				,Skill.class);
+		return query.setParameter("id", idR).getResultList();
+	}
+	
 
 }

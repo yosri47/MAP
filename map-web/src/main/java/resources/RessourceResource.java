@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -15,7 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Ressource;
-import entities.Skill;
 import interfaces.RessourceServiceLocal;
 
 @Path("resources")
@@ -54,7 +54,7 @@ public class RessourceResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response ListRessource(@QueryParam(value = "name") String name,
+	public Response listRessource(@QueryParam(value = "name") String name,
 			@QueryParam(value = "seniority") String seniority, @QueryParam(value = "id") String id,
 			@QueryParam(value = "rate") String rate, @QueryParam(value = "availability") String availability,
 			@QueryParam(value = "isactive") String isActive) {
@@ -75,5 +75,20 @@ public class RessourceResource {
 			return Response.status(Status.OK).entity(rs.listAll()).build();
 		}
 	}
-
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/skills/{id}")
+	public Response listResourceSkills(@PathParam(value="id")String id)
+	{
+		return Response.status(Status.OK).entity(rs.getResourceSkills(id)).build();
+		
+	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/resume/{id}")
+	public Response getResourceResume(@PathParam(value="id")String id)
+	{
+		return Response.status(Status.OK).entity(rs.getResourceResume(id)).build();
+	}
 }

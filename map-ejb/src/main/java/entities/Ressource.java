@@ -1,20 +1,29 @@
 package entities;
 
 import java.io.Serializable;
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+=======
+>>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+<<<<<<< HEAD
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+=======
+>>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.JoinColumn;
+<<<<<<< HEAD
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+=======
+>>>>>>> branch 'master' of https://github.com/yosri47/MAP.git
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,13 +37,14 @@ public class Ressource extends User implements Serializable{
 	private String note;
 	private double rate;
 	private String contractType;
+	@Column(columnDefinition= "boolean default false")
 	private boolean isOnLeave;
 	@Column(columnDefinition = "boolean default true")
 	private boolean isActive;
 	
 	@OneToOne
 	@JoinColumn(name="leaveId")
-	private Leave leave;
+	private Break leave;
 	@OneToOne
 	@JoinColumn(name="resumeId")
 	private Resume resume;
@@ -60,7 +70,7 @@ public class Ressource extends User implements Serializable{
 	}
 
 	public Ressource(String photo, AvailabilityType availability, String sector, int seniority, String note,
-			double rate, String contractType, boolean isOnLeave, Leave leave, Resume resume,
+			double rate, String contractType, boolean isOnLeave, Break leave, Resume resume,
 			Mandate mandate,boolean isActive) {
 		super();
 		this.photo = photo;
@@ -124,10 +134,10 @@ public class Ressource extends User implements Serializable{
 	public void setOnLeave(boolean isOnLeave) {
 		this.isOnLeave = isOnLeave;
 	}
-	public Leave getLeave() {
+	public Break getLeave() {
 		return leave;
 	}
-	public void setLeave(Leave leave) {
+	public void setLeave(Break leave) {
 		this.leave = leave;
 	}
 	public Resume getResume() {
