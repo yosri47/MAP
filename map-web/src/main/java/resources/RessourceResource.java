@@ -1,5 +1,8 @@
 package resources;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -15,8 +18,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import entities.Project;
 import entities.Ressource;
 import interfaces.RessourceServiceLocal;
+import services.ProjectService;
 
 @Path("resources")
 @RequestScoped
@@ -100,6 +105,20 @@ public class RessourceResource {
 		return Response.status(Status.OK).entity(rs.rankResourcesBySkillNumber()).build();
 	}
 	
+	@GET
+	@Path("/affect/{ProjectId}/{ResourceId}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response affectResourceToProject(@PathParam(value="ProjectId")String ProjectId,@PathParam(value="ResourceId")String ResourceId)
+	{
+		Project p = new ProjectService().findProject(Integer.parseInt(ProjectId));
+		Ressource r = rs.findRessource(Integer.parseInt(ResourceId));
+		Set<Ressource> resources = p.getRessourcesList();
+		resources.add(r);
+		p.setRessourcesList(resources);
+		new ProjectService().mergeProject(p);
+		return Response.status(Status.OK).entity("ok").build();
+		
+	}
 	
 	
 }

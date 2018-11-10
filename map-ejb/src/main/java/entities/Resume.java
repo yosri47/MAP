@@ -20,7 +20,6 @@ public class Resume implements Serializable{
 	private String description;
 	private String note;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JsonIgnore
 	private List<Skill> skills;
 	@OneToOne(mappedBy="resume")
 	private Ressource owner;

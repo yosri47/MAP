@@ -52,6 +52,7 @@ public class Ressource extends User implements Serializable{
 	private Break leave;
 	@OneToOne
 	@JoinColumn(name="resumeId")
+	@JsonIgnore
 	private Resume resume;
 	
 	public Ressource(int userId) {

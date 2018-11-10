@@ -83,13 +83,13 @@ public class BreakService implements BreakServiceLocal {
 	@Override
 	public int acceptBreak(String id) {
 		int idL = Integer.parseInt(id);
-		Query query = em.createQuery("UPDATE Break l SET l.isGranted = true WHERE l.BreakId = :id");
+		Query query = em.createQuery("UPDATE Break l SET l.isGranted = true WHERE l.leaveId = :id");
 		return query.setParameter("id", idL).executeUpdate();
 	}
 	@Override
 	public int deleteBreak(String id) {
 		int idL = Integer.parseInt(id);
-		Query query = em.createQuery("UPDATE Break l SET l.isTaken = true WHERE l.BreakId = :id");
+		Query query = em.createQuery("UPDATE Break l SET l.isTaken = true WHERE l.leaveId = :id");
 		return query.setParameter("id", idL).executeUpdate();
 	}
 	

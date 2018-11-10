@@ -24,7 +24,7 @@ public interface RessourceServiceLocal {
 	public List<Ressource> getRessourceByName(String name);
 	public Resume getResourceResume(String id);
 	public List<Skill> getResourceSkills(String id);
-	public List<Object[]> rankResourcesBySkillNumber();
+	public Map<String, Long> rankResourcesBySkillNumber();
 	
 
 }

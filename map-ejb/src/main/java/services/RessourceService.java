@@ -109,15 +109,28 @@ public class RessourceService implements RessourceServiceLocal {
 		return query.setParameter("id", idR).getResultList();
 	}
 	@Override
-	public List<Object[]> rankResourcesBySkillNumber()
+	public Map<String, Long> rankResourcesBySkillNumber()
 	{
 		
 		TypedQuery<Object[]> q = em.createQuery(
-			    "SELECT res.name,res.resume.skills" +
+			    "SELECT r.userId, count(r.resume.skills) " +
+			    "FROM Ressource r JOIN r.resume cv " +
+			    "ORDER BY r.userId", Object[].class);
+
+			List<Object[]> resultList = q.getResultList();
+			Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
+			for (Object[] result : resultList)
+			  resultMap.put((String)result[0], (Long)result[1]);
+			return resultMap;
+			/*
+			 * TypedQuery<Object[]> q = em.createQuery(
+			    "SELECT res.name,size(res.resume.skills)" +
 			    " FROM Ressource res"+
-			    " ORDER BY res.name", Object[].class);
+			    " ORDER BY size(res.resume.skills)", Object[].class);
 
 			return q.getResultList();
+			*/
 	}
+
 
 }

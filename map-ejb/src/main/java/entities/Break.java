@@ -22,7 +22,7 @@ public class Break implements Serializable{
 	
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
-	@OneToOne(mappedBy="leave")
+	@OneToOne
 	private Ressource resource;
 	private boolean isGranted;
 	private boolean isTaken;
