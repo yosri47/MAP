@@ -54,10 +54,42 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="resumeId")
 	@JsonIgnore
 	private Resume resume;
+<<<<<<< HEAD
+=======
+
 	
+>>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
+	
+<<<<<<< HEAD
+=======
+	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>rssends ;
+   
+	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>recu ;
+	
+	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
+	private Set<Mandate> mandates = new HashSet<>();
+	
+	
+	@ManyToOne
+	@JoinColumn(name="projectId")
+	private Project project;
+
+
+	
+	public Ressource() {
+		super();
+	}
+
+	
+
+
+>>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
 	public Ressource(int userId) {
 		super(userId);
 	}
+<<<<<<< HEAD
 
 	public Ressource() {
 		super();
@@ -68,6 +100,8 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="projectId")
 	private Project project;
 
+=======
+>>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
 
 	public String getPhoto() {
 		return photo;
