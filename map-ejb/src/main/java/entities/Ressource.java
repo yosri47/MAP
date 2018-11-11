@@ -75,9 +75,6 @@ public class Ressource extends User implements Serializable{
 		super();
 	}
 
-	
-
-
 	public Ressource(int userId) {
 		super(userId);
 	}
