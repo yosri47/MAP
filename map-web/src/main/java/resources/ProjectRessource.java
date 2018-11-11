@@ -153,10 +153,10 @@ public class ProjectRessource {
 	   public Response CalculateRentabilite(Project p){
 		   
 		   
-		   TypedQuery<Mandate> query = em.createQuery("Select c from mandate c",Client.class);
+		 /*  TypedQuery<Mandate> query = em.createQuery("Select c from mandate c",Client.class);
 			List<Client> ls = query.getResultList();
-			return ls ;
-		   return
+			return ls ; */
+		  return null;
 		   
 		   
 		   
