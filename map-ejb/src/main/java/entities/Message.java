@@ -39,9 +39,30 @@ public class Message implements Serializable{
 	@JoinColumn (name="rsrecu" ,referencedColumnName="userId")
 	private Ressource rsrecu;
 
+	@ManyToOne
+	@JoinColumn (name="adminsend" ,referencedColumnName="userId" )
+	private Admin adminsend;
+	
+
 	
 	
 
+	public Message(String object, String content, String type, Client clrecu, Admin adminsend) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.clrecu = clrecu;
+		this.adminsend = adminsend;
+	}
+
+	public Admin getAdminsend() {
+		return adminsend;
+	}
+
+	public void setAdminsend(Admin adminsend) {
+		this.adminsend = adminsend;
+	}
 
 	public Message(String object, String content, String type,Ressource rssend, Client clrecu) {
 		super();
