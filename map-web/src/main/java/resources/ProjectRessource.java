@@ -152,22 +152,7 @@ public class ProjectRessource {
 		   
 			return Response.status(Status.CREATED).entity("Organigram affected to client").build(); 
 			
-	   }
-	   
-<<<<<<< HEAD
-	
-		   
-		   
-		   
-	
-	   
-=======
-
->>>>>>> branch 'yosri' of https://github.com/yosri47/MAP.git
-	   
-	   
-	   
-	   
+	   }             
 	   }
 
 	
