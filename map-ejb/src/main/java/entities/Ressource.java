@@ -54,9 +54,6 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="resumeId")
 	private Resume resume;
 
-	@OneToOne
-	@JoinColumn(name="mandateId")
-	private Mandate mandate;
 	
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
