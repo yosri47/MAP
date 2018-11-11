@@ -54,14 +54,7 @@ public class Ressource extends User implements Serializable{
 	@JoinColumn(name="resumeId")
 	@JsonIgnore
 	private Resume resume;
-<<<<<<< HEAD
-=======
 
-	
->>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
-	
-<<<<<<< HEAD
-=======
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
    
@@ -85,23 +78,11 @@ public class Ressource extends User implements Serializable{
 	
 
 
->>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
 	public Ressource(int userId) {
 		super(userId);
 	}
-<<<<<<< HEAD
-
-	public Ressource() {
-		super();
-	}
 	
-	
-	@ManyToOne
-	@JoinColumn(name="projectId")
-	private Project project;
 
-=======
->>>>>>> branch 'mohamed' of https://github.com/yosri47/MAP.git
 
 	public String getPhoto() {
 		return photo;
