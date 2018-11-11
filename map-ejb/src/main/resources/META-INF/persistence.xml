@@ -10,6 +10,18 @@
 		</properties>
 		
 
+<<<<<<< HEAD
 		
+=======
+
+           <property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />		
+			</properties>
+
+		
+
+>>>>>>> branch 'habib' of https://github.com/yosri47/MAP.git
 	</persistence-unit>
 </persistence>
