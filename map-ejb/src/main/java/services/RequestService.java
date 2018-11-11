@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entities.Request;
+import entities.Ressource;
 import interfaces.RequestLocal;
 
 
@@ -49,7 +50,18 @@ public class RequestService implements RequestLocal {
 	@Override
 	public Request getRequestbyid(int req) {
 		TypedQuery<Request> query = em.createQuery("select r from Request r  where r.requestId ="+req,Request.class);
-		return (Request) query.getSingleResult();
+		if(	query.getResultList().isEmpty()){return null;}
+		else{
+		return (Request) query.getSingleResult();}
 	}
+	
+	public Ressource getRessourcedispo() {
+		TypedQuery<Ressource> query = em.createQuery("select r from Ressource r  where r.isOnLeave="+1+" and rownum ="+1,Ressource.class);
+		if(	query.getResultList().isEmpty()){return null;}
+		else{
+		return (Ressource) query.getSingleResult();
+	}
+	}	
+	
 	
 }

@@ -150,7 +150,7 @@ public class ProjectRessource {
 			
 	   }
 	   
-	   public Response CalculateRentabilite(Project p){
+	  /* public Response CalculateRentabilite(Project p){
 		   
 		   
 		 /*  TypedQuery<Mandate> query = em.createQuery("Select c from mandate c",Client.class);
@@ -162,7 +162,7 @@ public class ProjectRessource {
 		   
 		   
 	   }
-	   
+	   */
 	   
 	   
 	   

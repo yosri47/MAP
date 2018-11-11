@@ -1,19 +1,35 @@
 package entities;
 
 import java.io.Serializable;
+
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+
 import java.util.HashSet;
 import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+
 import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Ressource extends User implements Serializable{
@@ -37,6 +53,46 @@ public class Ressource extends User implements Serializable{
 	@OneToOne
 	@JoinColumn(name="resumeId")
 	private Resume resume;
+
+	@OneToOne
+	@JoinColumn(name="mandateId")
+	private Mandate mandate;
+	
+	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>rssends ;
+   
+	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>recu ;
+	
+	
+
+
+	public Ressource(int userId) {
+		super(userId);
+	}
+    @JsonIgnore
+
+	public Set<Message> getRssends() {
+		return rssends;
+	}
+
+	public void setRssends(Set<Message> rssends) {
+		this.rssends = rssends;
+	}
+    @JsonIgnore
+
+	public Set<Message> getRecu() {
+		return recu;
+	}
+
+	public void setRecu(Set<Message> recu) {
+		this.recu = recu;
+	}
+
+	public Ressource() {
+		super();
+	}
+
 	
 	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
 	private Set<Mandate> mandates = new HashSet<>();
@@ -197,9 +253,7 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public Ressource() {
-		super();
-	}
+	
 
 
 	@Override
