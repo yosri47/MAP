@@ -91,6 +91,12 @@ public class Request  implements Serializable {
 	}
 
 
+	public Request(int requestId) {
+		super();
+		this.requestId = requestId;
+	}
+
+
 	public void setStatus(Boolean status) {
 		Status = status;
 	}
