@@ -41,55 +41,30 @@ public class Ressource extends User implements Serializable{
 	private int seniority;
 	private String note;
 	private double rate;
-	private String contractType;
+	@Enumerated(EnumType.STRING)
+	private ContractType contractType;
 	@Column(columnDefinition= "boolean default false")
 	private boolean isOnLeave;
 	@Column(columnDefinition = "boolean default true")
 	private boolean isActive;
-	
 	@OneToOne
 	@JoinColumn(name="leaveId")
 	private Break leave;
 	@OneToOne
 	@JoinColumn(name="resumeId")
+	@JsonIgnore
 	private Resume resume;
+<<<<<<< HEAD
 
 	
+=======
+
+>>>>>>> branch 'yosri' of https://github.com/yosri47/MAP.git
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
    
 	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>recu ;
-	
-	
-
-
-	public Ressource(int userId) {
-		super(userId);
-	}
-    @JsonIgnore
-
-	public Set<Message> getRssends() {
-		return rssends;
-	}
-
-	public void setRssends(Set<Message> rssends) {
-		this.rssends = rssends;
-	}
-    @JsonIgnore
-
-	public Set<Message> getRecu() {
-		return recu;
-	}
-
-	public void setRecu(Set<Message> recu) {
-		this.recu = recu;
-	}
-
-	public Ressource() {
-		super();
-	}
-
 	
 	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
 	private Set<Mandate> mandates = new HashSet<>();
@@ -98,6 +73,17 @@ public class Ressource extends User implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="projectId")
 	private Project project;
+
+
+	
+	public Ressource() {
+		super();
+	}
+
+	public Ressource(int userId) {
+		super(userId);
+	}
+	
 
 
 	public String getPhoto() {
@@ -160,12 +146,12 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public String getContractType() {
+	public ContractType getContractType() {
 		return contractType;
 	}
 
 
-	public void setContractType(String contractType) {
+	public void setContractType(ContractType contractType) {
 		this.contractType = contractType;
 	}
 
@@ -210,15 +196,6 @@ public class Ressource extends User implements Serializable{
 	}
 
 
-	public Set<Mandate> getMandates() {
-		return mandates;
-	}
-
-
-	public void setMandates(Set<Mandate> mandates) {
-		this.mandates = mandates;
-	}
-
 
 	public Project getProject() {
 		return project;
@@ -231,7 +208,7 @@ public class Ressource extends User implements Serializable{
 
 
 	public Ressource(String photo, AvailabilityType availability, String sector, int seniority, String note,
-			double rate, String contractType, boolean isOnLeave, boolean isActive, Break leave, Resume resume,
+			double rate, ContractType contractType, boolean isOnLeave, boolean isActive, Break leave, Resume resume,
 			Set<Mandate> mandates, Project project) {
 		super();
 		this.photo = photo;
@@ -245,7 +222,6 @@ public class Ressource extends User implements Serializable{
 		this.isActive = isActive;
 		this.leave = leave;
 		this.resume = resume;
-		this.mandates = mandates;
 		this.project = project;
 	}
 
@@ -262,7 +238,6 @@ public class Ressource extends User implements Serializable{
 		result = prime * result + (isActive ? 1231 : 1237);
 		result = prime * result + (isOnLeave ? 1231 : 1237);
 		result = prime * result + ((leave == null) ? 0 : leave.hashCode());
-		result = prime * result + ((mandates == null) ? 0 : mandates.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
 		result = prime * result + ((project == null) ? 0 : project.hashCode());
@@ -301,11 +276,6 @@ public class Ressource extends User implements Serializable{
 				return false;
 		} else if (!leave.equals(other.leave))
 			return false;
-		if (mandates == null) {
-			if (other.mandates != null)
-				return false;
-		} else if (!mandates.equals(other.mandates))
-			return false;
 		if (note == null) {
 			if (other.note != null)
 				return false;
@@ -337,6 +307,8 @@ public class Ressource extends User implements Serializable{
 			return false;
 		return true;
 	}
+	
+	
 	
 	
 	

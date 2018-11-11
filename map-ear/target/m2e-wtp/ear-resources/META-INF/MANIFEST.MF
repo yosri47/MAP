@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: mafio
+=======
+Built-By: dell
+>>>>>>> branch 'yosri' of https://github.com/yosri47/MAP.git
 Build-Jdk: 1.8.0_60
 Created-By: Maven Integration for Eclipse
 

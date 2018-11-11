@@ -2,15 +2,21 @@ package services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import entities.AvailabilityType;
 import entities.Break;
+import entities.ContractType;
 import entities.Holiday;
 import entities.Ressource;
+import interfaces.BreakServiceLocal;
+import interfaces.HolidayServiceLocal;
+import interfaces.RessourceServiceLocal;
 import interfaces.UpdateServiceLocal;
 
 @Stateless
@@ -19,30 +25,10 @@ public class UpdateService implements UpdateServiceLocal {
 	EntityManager em;
 
 	@Override
-	public void generateResources() {
-
-		Query query = em.createQuery("");
-	}
-
-	@Override
-	public void generateResumes() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void generateSkills() {
-		Query query = em.createQuery("");
-
-	}
-
-	@Override
 	public void updateResourcesAvailability() {
-		RessourceService rs = new RessourceService();
-		BreakService bs = new BreakService();
-		HolidayService hs = new HolidayService();
+		
+		/*
 		List<Ressource> resources = rs.listAll();
-		List<Break> breaks = bs.listAll();
 		List<Holiday> holidays = hs.listAll();
 		Date today = new Date();
 
@@ -65,28 +51,19 @@ public class UpdateService implements UpdateServiceLocal {
 								* res.getLeave().getEndDate().compareTo(today) >= 0) {
 							res.setAvailability(AvailabilityType.Unavailable);
 							rs.mergeRessource(res);
-						}
-
-						// IF HIS LEAVE ENDED
-						else {
+							// IF HIS LEAVE ENDED
+						} else {
 							res.setAvailability(AvailabilityType.Available);
-							res.setOnLeave(false);
 							res.getLeave().setTaken(true);
 							bs.mergeBreak(res.getLeave());
-							rs.mergeRessource(res);
-						}
-					}
-					// IF HE S WORKING BUT HAS A LEAVE COMING UP
-					else if (!res.isOnLeave() && res.getLeave() != null && res.isActive()) {
-						if (res.getLeave().isGranted()) {
-							res.setOnLeave(true);
-							res.setAvailability(AvailabilityType.Unavailable);
+							res.setLeave(null);
 							rs.mergeRessource(res);
 						}
 					}
 				}
 			}
 		}
-	}
+		*/
 
+	}
 }

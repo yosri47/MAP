@@ -1,5 +1,8 @@
 package resources;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -15,8 +18,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import entities.Project;
 import entities.Ressource;
 import interfaces.RessourceServiceLocal;
+import services.ProjectService;
 
 @Path("resources")
 @RequestScoped
@@ -53,6 +58,7 @@ public class RessourceResource {
 	}
 
 	@GET
+	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listRessource(@QueryParam(value = "name") String name,
 			@QueryParam(value = "seniority") String seniority, @QueryParam(value = "id") String id,
@@ -82,7 +88,6 @@ public class RessourceResource {
 	public Response listResourceSkills(@PathParam(value="id")String id)
 	{
 		return Response.status(Status.OK).entity(rs.getResourceSkills(id)).build();
-		
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -91,4 +96,29 @@ public class RessourceResource {
 	{
 		return Response.status(Status.OK).entity(rs.getResourceResume(id)).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/rank")
+	public Response rankResources(@QueryParam(value="category")String category)
+	{
+		return Response.status(Status.OK).entity(rs.rankResourcesBySkillNumber()).build();
+	}
+	
+	@GET
+	@Path("/affect/{ProjectId}/{ResourceId}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response affectResourceToProject(@PathParam(value="ProjectId")String ProjectId,@PathParam(value="ResourceId")String ResourceId)
+	{
+		Project p = new ProjectService().findProject(Integer.parseInt(ProjectId));
+		Ressource r = rs.findRessource(Integer.parseInt(ResourceId));
+		Set<Ressource> resources = p.getRessourcesList();
+		resources.add(r);
+		p.setRessourcesList(resources);
+		new ProjectService().mergeProject(p);
+		return Response.status(Status.OK).entity("ok").build();
+		
+	}
+	
+	
 }
