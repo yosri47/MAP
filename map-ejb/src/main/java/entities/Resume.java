@@ -21,6 +21,7 @@ public class Resume implements Serializable{
 	private String note;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Skill> skills;
+	@JsonIgnore
 	@OneToOne(mappedBy="resume")
 	private Ressource owner;
 	public Resume() {

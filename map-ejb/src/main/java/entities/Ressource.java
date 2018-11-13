@@ -52,21 +52,24 @@ public class Ressource extends User implements Serializable{
 	private Break leave;
 	@OneToOne
 	@JoinColumn(name="resumeId")
-	@JsonIgnore
 	private Resume resume;
+<<<<<<< HEAD
 
 
 
+=======
+
+	@JsonIgnore
+>>>>>>> branch 'yosri' of https://github.com/yosri47/MAP.git
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
-   
+	@JsonIgnore
 	@OneToMany(mappedBy = "rsrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>recu ;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "resource",fetch= FetchType.EAGER)
 	private Set<Mandate> mandates = new HashSet<>();
-	
-	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="projectId")
 	private Project project;

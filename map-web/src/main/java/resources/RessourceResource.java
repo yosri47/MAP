@@ -58,13 +58,12 @@ public class RessourceResource {
 	}
 
 	@GET
-	@Path("")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listRessource(@QueryParam(value = "name") String name,
 			@QueryParam(value = "seniority") String seniority, @QueryParam(value = "id") String id,
 			@QueryParam(value = "rate") String rate, @QueryParam(value = "availability") String availability,
 			@QueryParam(value = "isactive") String isActive) {
-		if (name != null) {
+		/*if (name != null) {
 			return Response.status(Status.OK).entity(rs.getRessourceByName(name)).build();
 		} else if (seniority != null) {
 			return Response.status(Status.OK).entity(rs.getRessourceBySeniority(seniority)).build();
@@ -77,9 +76,9 @@ public class RessourceResource {
 			return Response.status(Status.OK).entity(rs.getRessourceByAvailability(availability)).build();
 		} else if (isActive != null) {
 			return Response.status(Status.OK).entity(rs.getRessourceByActivity(isActive)).build();
-		} else {
+		} else {*/
 			return Response.status(Status.OK).entity(rs.listAll()).build();
-		}
+		//}
 	}
 	
 	@GET
