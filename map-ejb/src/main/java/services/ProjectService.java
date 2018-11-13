@@ -14,7 +14,7 @@ import interfaces.ProjectServiceLocal;
 @Stateless
 public class ProjectService implements ProjectServiceLocal {
 
-	@PersistenceContext(unitName="pidev-ejb")
+	@PersistenceContext(unitName="SoaRevision-ejb")
 	EntityManager em;
 	
 	@Override

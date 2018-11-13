@@ -6,22 +6,20 @@
 	<persistence-unit name="pidev-ejb">
 		<jta-data-source>java:/PIDEVDS</jta-data-source>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-		</properties>
+			
 		
 
-<<<<<<< HEAD
-		
-=======
+
 
            <property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />		
+			<property name="hibernate.format_sql" value="true" />	
+			
+				
 			</properties>
 
 		
 
->>>>>>> branch 'habib' of https://github.com/yosri47/MAP.git
 	</persistence-unit>
 </persistence>

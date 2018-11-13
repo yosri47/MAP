@@ -55,11 +55,8 @@ public class Ressource extends User implements Serializable{
 	@JsonIgnore
 	private Resume resume;
 
-<<<<<<< HEAD
-=======
 
-	
->>>>>>> branch 'habib' of https://github.com/yosri47/MAP.git
+
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
    
