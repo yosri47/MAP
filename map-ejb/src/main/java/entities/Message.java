@@ -2,6 +2,7 @@ package entities;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +26,8 @@ public class Message implements Serializable{
 	private String object;
 	private String content;
 	private String type;
-   
+	@Temporal(TemporalType.DATE)
+	private Date dateSend;
 	
 	@ManyToOne
 	@JoinColumn (name="clsend" ,referencedColumnName="userId" )
@@ -47,14 +51,29 @@ public class Message implements Serializable{
 	
 	
 
-	public Message(String object, String content, String type, Client clrecu, Admin adminsend) {
+	public Message(String object, String content, String type, Client clrecu, Admin adminsend,Date dateSend) {
 		super();
 		this.object = object;
 		this.content = content;
 		this.type = type;
 		this.clrecu = clrecu;
 		this.adminsend = adminsend;
+		this.dateSend=dateSend;
 	}
+	
+	
+
+	public Date getDateSend() {
+		return dateSend;
+	}
+
+
+
+	public void setDateSend(Date dateSend) {
+		this.dateSend = dateSend;
+	}
+
+
 
 	public Admin getAdminsend() {
 		return adminsend;

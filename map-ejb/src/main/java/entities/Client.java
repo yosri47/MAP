@@ -39,6 +39,8 @@ public class Client extends User implements Serializable{
 
 	private String clientAddress;
 	
+	private float lattitude;
+	private float longitude;
 	
 	@OneToMany(mappedBy = "reqcl", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 
@@ -181,6 +183,34 @@ public class Client extends User implements Serializable{
 		if (clientType != other.clientType)
 			return false;
 		return true;
+	}
+
+	public float getLattitude() {
+		return lattitude;
+	}
+
+	public void setLattitude(float lattitude) {
+		this.lattitude = lattitude;
+	}
+
+	public float getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
+	public Client(int userId, ClientType clientType, ClientCategory clientCategory, String clientLogo,
+			String clientNote, String clientAddress, float lattitude, float longitude) {
+		super(userId);
+		this.clientType = clientType;
+		this.clientCategory = clientCategory;
+		this.clientLogo = clientLogo;
+		this.clientNote = clientNote;
+		this.clientAddress = clientAddress;
+		this.lattitude = lattitude;
+		this.longitude = longitude;
 	}
 	
 	
