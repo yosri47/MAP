@@ -53,8 +53,14 @@ public class Ressource extends User implements Serializable{
 	@OneToOne
 	@JoinColumn(name="resumeId")
 	private Resume resume;
+<<<<<<< HEAD
 
 	@JsonIgnore
+=======
+
+
+	
+>>>>>>> branch 'habib' of https://github.com/yosri47/MAP.git
 	@OneToMany(mappedBy = "rssend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>rssends ;
 	@JsonIgnore

@@ -10,16 +10,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import entities.Admin;
+import entities.Client;
+import entities.Message;
 import entities.Request;
 import entities.Ressource;
 import interfaces.RequestLocal;
+import interfaces.RequestRemote;
 
 
 @Stateless 
 
-public class RequestService implements RequestLocal {
+public class RequestService implements RequestLocal , RequestRemote {
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
+	MessageService ms ;
+	AdminService ad ;
 
 	@Override
 	public int ajouterRequest(Request req) {
@@ -56,12 +62,34 @@ public class RequestService implements RequestLocal {
 	}
 	
 	public Ressource getRessourcedispo() {
-		TypedQuery<Ressource> query = em.createQuery("select r from Ressource r  where r.isOnLeave="+1+" and rownum ="+1,Ressource.class);
+		TypedQuery<Ressource> query = em.createQuery("select r from Ressource r  where r.isOnLeave="+1+"ORDER BY r.rate",Ressource.class);
 		if(	query.getResultList().isEmpty()){return null;}
 		else{
-		return (Ressource) query.getSingleResult();
+		return (Ressource) query.getResultList().get(1);
 	}
-	}	
+	}
+
+	public Message Valider(Request m) {
+		m.setStatus(true);
+		Client c = m.getReqcl();
+		Message mes = new Message();
+		Admin admin = 	m.getReqadmin();
+
+		mes.setAdminsend(admin);
+		mes.setClrecu(c);
+		mes.setObject("votre requête a eté traité avec succes");
+		mes.setType("Request Réponse");
+		
+		Date date = new Date();
+		mes.setDateSend(date);	
+	if(	this.getRessourcedispo()==null){
+		mes.setContent("Aucun Ressource Dispponible");}
+	else { Ressource rous =this.getRessourcedispo();
+		mes.setContent("Ressource Dispponible "+rous.getName()+" "+rous.getRate());
+	}
+			em.merge(m);
+			return mes;
+		}
 	
 	
 }

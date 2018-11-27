@@ -1,7 +1,13 @@
 package resources;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -22,8 +28,10 @@ import javax.ws.rs.core.Response.Status;
 
 import entities.Client;
 import entities.Message;
+import entities.Request;
 import interfaces.ClientServiceLocale;
 import interfaces.ClientServiceRemote;
+import interfaces.RequestLocal;
 import interfaces.messageRemote;
 
 @Path("mes")
@@ -33,14 +41,16 @@ public class MessageRessource {
 	@EJB(beanName="MessageService")
 	messageRemote em;
 
-
+	@EJB(beanName="RequestService")
+	RequestLocal req ;
+	
 	@EJB(beanName="ClientService")
 	ClientServiceLocale cl;
 	
 @POST
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public Response add(Message m) {
+public Response add(Message m) throws ParseException {
 	
 	
 	if (!em.verif(m.getObject())||!em.verif(m.getType())){
@@ -48,10 +58,40 @@ public Response add(Message m) {
 
 	}
 	else{
+	
+		
+		
+		Date date = new Date();
+		m.setDateSend(date);			
 	 int res = em.ajouterMessage(m);
 		return Response.status(Status.CREATED).entity("Created"+m.getMessageId()).build();}
 	
 	}
+
+
+@POST
+@Path("add")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response addmes(@QueryParam("object") String objet,@QueryParam("content") String content,@QueryParam("type") String type,@QueryParam("clsend") int clsend,@QueryParam("rsrecu") int rsrecu) throws ParseException {
+	Message m = new Message ();
+m.setObject(objet);
+m.setContent(content);
+m.setType(type);
+
+m.setClsend(em.getClientbyid(clsend));
+m.setRsrecu(em.getressourcebyid(rsrecu));
+
+		Date date = new Date();
+		m.setDateSend(date);			
+	 int res = em.ajouterMessage(m);
+		return Response.status(Status.CREATED).entity("Created"+m.getMessageId()).build();
+	
+	}
+
+
+
+
 
 @PUT
 @Consumes(MediaType.APPLICATION_JSON)
@@ -144,6 +184,16 @@ public Response getmessagebyclient(@QueryParam("idclient") int client) {
 public Response getmessagebyrecu(@QueryParam("idrecu") int idmessage) {
 	List<Message> mes = new ArrayList<>();
 	mes=  em.getMessagebyrecu(idmessage);
+		return Response.status(Status.OK).entity(mes).build();
+		
+}
+
+@GET
+@Path("client")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getClientbyid(@QueryParam("idcl") int idcl) {
+	Client mes = new  Client();
+	mes=  em.getClientbyid(idcl);
 		return Response.status(Status.OK).entity(mes).build();
 		
 }
