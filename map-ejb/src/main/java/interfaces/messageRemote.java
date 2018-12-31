@@ -29,5 +29,5 @@ public interface messageRemote {
 	public List<Message>getMessagebysend(int m) ;
 	public List<Client>getMessagebyClient(int m);
 	public Ressource getressourcebyid(int m);
-
+	public int removemessage(int m);
 }

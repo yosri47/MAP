@@ -84,7 +84,7 @@ em.merge(m);
 	}	}
 	
 	public List<Message>getMessagebysend(int m) {
-		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clsend.userId ="+m,Message.class);
+		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clsend.userId ="+m+"or e.rssend ="+m,Message.class);
 		return (List<Message>)query.getResultList();
 		}
 	public List<Message>getMessagebyrecu(int m) {
@@ -99,6 +99,14 @@ em.merge(m);
 		TypedQuery<Client> query = em.createQuery("select e.clsend from  Message e where e.clsend.userId ="+m,Client.class);
 		return (List<Client>)query.getResultList();
 		}
+	
+	public int removemessage(int m) {
+
+		Query   query = em.createQuery("DELETE FROM Message e  WHERE e.messageId = "+m);
+		return  query.executeUpdate() ;
+		}
+	
+	
 public Boolean verif(String chaine){
 	if(chaine.matches("[a-zA-Z]+")){
 		return true ;	}

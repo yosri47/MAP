@@ -48,8 +48,64 @@ public class Message implements Serializable{
 	private Admin adminsend;
 	
 
+	private String from_user_id;
+	private String to_user_id;
 	
-	
+	private String message;
+
+	public Message(String from_user_id, String to_user_id, String message) {
+		super();
+		this.from_user_id = from_user_id;
+		this.to_user_id = to_user_id;
+		this.message = message;
+	}
+
+
+
+	public String getMessage() {
+		return message;
+	}
+
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
+
+	public String getFrom_user_id() {
+		return from_user_id;
+	}
+
+
+
+	public void setFrom_user_id(String from_user_id) {
+		this.from_user_id = from_user_id;
+	}
+
+
+
+	public String getTo_user_id() {
+		return to_user_id;
+	}
+
+
+
+	public void setTo_user_id(String to_user_id) {
+		this.to_user_id = to_user_id;
+	}
+
+
+
+	public Message(String content, Client clsend, Client clrecu) {
+		super();
+		this.content = content;
+		this.clsend = clsend;
+		this.clrecu = clrecu;
+	}
+
+
 
 	public Message(String object, String content, String type, Client clrecu, Admin adminsend,Date dateSend) {
 		super();

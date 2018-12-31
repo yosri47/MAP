@@ -59,6 +59,7 @@ public class RequestRessource {
 	Client c = cloc.getClientbyid(cl);
 	 req.setReqadmin(a);
 	 req.setReqcl(c);
+	 req.setStatus(false);
 		int res = em.ajouterRequest(req);
 			return Response.status(Status.OK).entity("Created"+res).build();
 		}
@@ -74,8 +75,8 @@ public class RequestRessource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response supprimer(@PathParam(value="id")int idreq) {
-		   Request req = em.getRequestbyid(idreq);
-	     int res = em.deleteRequest(req);
+		 
+	     int res = em.removeRequest(idreq);
 			return Response.status(Status.OK).entity("Removed"+res).build();
 		}
 	
@@ -88,9 +89,36 @@ public class RequestRessource {
 			return Response.status(Status.OK).entity(mes).build();
 		}
 	
-	@PUT
+	@GET
+	@Path("Status")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response Status() {
+		List<Request> mes = new ArrayList<>();
+		mes=  em.getRequestStatus();
+			return Response.status(Status.OK).entity(mes).build();
+		}
+	@GET
+	@Path("stat")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response stat() {
+		List<Request> mes = new ArrayList<>();
+		mes=  em.getRequestStatu();
+			return Response.status(Status.OK).entity(mes).build();
+		}
+	
+	
+	
+	@GET
+	@Path("send")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllsend(@QueryParam("idsend") int idsend) {
+		List<Request> mes = new ArrayList<>();
+		mes=  em.getallRequestsSend(idsend);
+			return Response.status(Status.OK).entity(mes).build();
+		}
+	
+	@GET
 	@Path("valider")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 
 		public Response ValiderRequete(@QueryParam("idreq") int idreq) {

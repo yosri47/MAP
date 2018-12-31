@@ -20,10 +20,12 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	protected int userId;
-
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	protected int id;
 	protected String emailAddress;
 
 	protected String password;
+	protected String username;
 
 	protected String confirmPassword;
 
@@ -32,6 +34,10 @@ public class User implements Serializable{
 
 	protected UserType userType;
 	
+	@Enumerated(EnumType.STRING)
+	protected EnumOnline online;
+
+	protected String socketid;
 	
 	
 	
@@ -39,8 +45,52 @@ public class User implements Serializable{
 	
 	
 	
-	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public User(String emailAddress, String password, String username, String confirmPassword, String name,
+			UserType userType, EnumOnline online, String socketid) {
+		super();
+		this.emailAddress = emailAddress;
+		this.password = password;
+		this.username = username;
+		this.confirmPassword = confirmPassword;
+		this.name = name;
+		this.userType = userType;
+		this.online = online;
+		this.socketid = socketid;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getSocketid() {
+		return socketid;
+	}
+	public void setSocketid(String socketid) {
+		this.socketid = socketid;
+	}
+	public User(String emailAddress, String password, String confirmPassword, String name, UserType userType,
+			EnumOnline online) {
+		super();
+		this.emailAddress = emailAddress;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+		this.name = name;
+		this.userType = userType;
+		this.online = online;
+	}
+	public EnumOnline getOnline() {
+		return online;
+	}
+	public void setOnline(EnumOnline online) {
+		this.online = online;
+	}
 	public User(int userId) {
 		super();
 		this.userId = userId;

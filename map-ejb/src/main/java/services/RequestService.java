@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import entities.Admin;
@@ -46,10 +47,19 @@ public class RequestService implements RequestLocal , RequestRemote {
 		em.remove(em.contains(req) ? req : em.merge(req)); 
 		return 1;
 	}
+	public int deleteReq(int req) {
+		em.remove(em.find(Request.class, req)); 
+		return 1;
+	}
 
 	@Override
 	public List<Request> getall() {
 		TypedQuery<Request> query = em.createQuery("select r from Request r ",Request.class);
+		return (List<Request>)query.getResultList();
+	}
+	
+	public List<Request> getallRequestsSend(int id) {
+		TypedQuery<Request> query = em.createQuery("select r from Request r where r.reqcl= "+id,Request.class);
 		return (List<Request>)query.getResultList();
 	}
 
@@ -61,6 +71,18 @@ public class RequestService implements RequestLocal , RequestRemote {
 		return (Request) query.getSingleResult();}
 	}
 	
+	public List<Request> getRequestStatus() {
+		TypedQuery<Request> query = em.createQuery("select r from Request r  where r.Status ="+1,Request.class);
+		if(	query.getResultList().isEmpty()){return null;}
+		else{
+		return (List<Request>) query.getResultList();}
+	}
+	public List<Request> getRequestStatu() {
+		TypedQuery<Request> query = em.createQuery("select r from Request r  where r.Status ="+0,Request.class);
+		if(	query.getResultList().isEmpty()){return null;}
+		else{
+		return (List<Request>) query.getResultList();}
+	}
 	public Ressource getRessourcedispo() {
 		TypedQuery<Ressource> query = em.createQuery("select r from Ressource r  where r.isOnLeave="+1+"ORDER BY r.rate",Ressource.class);
 		if(	query.getResultList().isEmpty()){return null;}
@@ -68,7 +90,11 @@ public class RequestService implements RequestLocal , RequestRemote {
 		return (Ressource) query.getResultList().get(1);
 	}
 	}
+	public int removeRequest(int m) {
 
+		Query   query = em.createQuery("DELETE FROM Request e  WHERE e.requestId = "+m);
+		return  query.executeUpdate() ;
+		}
 	public Message Valider(Request m) {
 		m.setStatus(true);
 		Client c = m.getReqcl();
@@ -79,7 +105,11 @@ public class RequestService implements RequestLocal , RequestRemote {
 		mes.setClrecu(c);
 		mes.setObject("votre requête a eté traité avec succes");
 		mes.setType("Request Réponse");
-		
+		mes.setMessage("votre requête a eté traité avec succes");
+		String send =String.valueOf(admin.getId()) ;
+		String rec = String.valueOf(c.getId()) ;
+        mes.setTo_user_id(rec);
+		mes.setFrom_user_id(send);
 		Date date = new Date();
 		mes.setDateSend(date);	
 	if(	this.getRessourcedispo()==null){
