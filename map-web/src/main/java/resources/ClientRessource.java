@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Client;
+import entities.Message;
 import interfaces.ClientServiceLocale;
 import services.ClientService;
 
@@ -51,6 +52,14 @@ public class ClientRessource {
 		return Response.status(Status.CREATED).entity("Client created").build();
 
 	}
+	@GET
+	@Path("getall")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAll() {
+		List<Client> mes = new ArrayList<>();
+		mes=  cs.afficherClients();
+			return Response.status(Status.OK).entity(mes).build();
+		}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

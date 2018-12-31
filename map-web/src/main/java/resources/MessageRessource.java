@@ -89,9 +89,64 @@ m.setRsrecu(em.getressourcebyid(rsrecu));
 	
 	}
 
+@POST
+@Path("addmes")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response addmesressource(@QueryParam("object") String objet,@QueryParam("content") String content,@QueryParam("type") String type,@QueryParam("clsend") int clsend,@QueryParam("clrecu") int clrecu) throws ParseException {
+	Message m = new Message ();
+m.setObject(objet);
+m.setContent(content);
+m.setType(type);
 
+m.setClsend(em.getClientbyid(clsend));
+m.setClrecu(em.getClientbyid(clrecu));
 
+		Date date = new Date();
+		m.setDateSend(date);			
+	 int res = em.ajouterMessage(m);
+		return Response.status(Status.CREATED).entity("Created"+m.getMessageId()).build();
+	
+	}
 
+@POST
+@Path("addrsrecu")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response addmesend(@QueryParam("object") String objet,@QueryParam("content") String content,@QueryParam("type") String type,@QueryParam("rssend") int rssend,@QueryParam("clrecu") int clrecu) throws ParseException {
+	Message m = new Message ();
+m.setObject(objet);
+m.setContent(content);
+m.setType(type);
+
+m.setRssend(em.getressourcebyid(rssend));
+m.setClrecu(em.getClientbyid(clrecu));
+
+		Date date = new Date();
+		m.setDateSend(date);			
+	 int res = em.ajouterMessage(m);
+		return Response.status(Status.CREATED).entity("Created"+m.getMessageId()).build();
+	
+	}
+@POST
+@Path("addsend")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response addmrecu(@QueryParam("object") String objet,@QueryParam("content") String content,@QueryParam("type") String type,@QueryParam("rssend") int rssend,@QueryParam("rsrecu") int rsrecu) throws ParseException {
+	Message m = new Message ();
+m.setObject(objet);
+m.setContent(content);
+m.setType(type);
+
+m.setRssend(em.getressourcebyid(rssend));
+m.setRsrecu(em.getressourcebyid(rsrecu));
+
+		Date date = new Date();
+		m.setDateSend(date);			
+	 int res = em.ajouterMessage(m);
+		return Response.status(Status.CREATED).entity("Created"+m.getMessageId()).build();
+	
+	}
 
 @PUT
 @Consumes(MediaType.APPLICATION_JSON)
@@ -118,7 +173,7 @@ public Response supprimer(@PathParam(value="id")int idmessage) {
 	else{
 	Message ms = em.getMessagebyid(idmessage);
 	   
-     int res = em.delete(ms);
+     int res = em.removemessage(idmessage);
 		return Response.status(Status.OK).entity("Removed"+res).build();}
 	}
 @GET

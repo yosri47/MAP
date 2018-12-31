@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Admin  extends User  {
 
-	@OneToMany(mappedBy = "reqadmin", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )		
+	@OneToMany(mappedBy = "reqadmin", cascade = CascadeType.ALL ,fetch=FetchType.EAGER)		
     private List<Request> RequestList;
 	@OneToMany(mappedBy = "adminsend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
 	private Set<Message>sends ;

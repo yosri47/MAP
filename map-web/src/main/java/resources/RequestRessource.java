@@ -74,9 +74,8 @@ public class RequestRessource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response supprimer(@PathParam(value="id")int idreq) {
-		   Request req = em.getRequestbyid(idreq);
-	     int res = em.deleteRequest(req);
-			return Response.status(Status.OK).entity("Removed"+res).build();
+		    int res = em.removeRequest(idreq);
+		 	return Response.status(Status.OK).entity("Removed"+res).build();
 		}
 	
 	@GET
