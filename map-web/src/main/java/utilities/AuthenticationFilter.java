@@ -31,7 +31,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	 @Inject
 	 @AuthenticatedUser
 	 Event<String> userAuthenticatedEvent;
-
+	 
 	 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {

@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import entities.Ressource;
 import entities.Resume;
 import entities.Skill;
+import entities.User;
 import interfaces.RessourceServiceLocal;
 
 @Stateless
@@ -130,6 +131,11 @@ public class RessourceService implements RessourceServiceLocal {
 
 			return q.getResultList();
 			*/
+	}
+
+	@Override
+	public void persistUser(User u) {
+		em.persist(u);
 	}
 
 

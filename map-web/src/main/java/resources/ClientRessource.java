@@ -76,6 +76,7 @@ public class ClientRessource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/all")
 	public Response afficherList(@QueryParam(value = "id") int id,@QueryParam(value = "name") String name) {
 		
 		if(id ==0 && name.equals(null)) 

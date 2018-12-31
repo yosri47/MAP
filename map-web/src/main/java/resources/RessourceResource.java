@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 import entities.Project;
 import entities.Ressource;
+import entities.User;
 import interfaces.RessourceServiceLocal;
 import services.ProjectService;
 
@@ -28,6 +29,18 @@ import services.ProjectService;
 public class RessourceResource {
 	@EJB(beanName = "RessourceService")
 	private RessourceServiceLocal rs;
+	@POST
+	@Path("/user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addUser(User u)
+	{
+		if (u != null) {
+			rs.persistUser(u);
+			return Response.status(Status.CREATED).entity(u.getUserId()).build();
+		} else {
+			return Response.status(Status.NOT_ACCEPTABLE).entity("ERREUR D AJOUT").build();
+		}
+	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

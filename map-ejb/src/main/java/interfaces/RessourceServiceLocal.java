@@ -8,6 +8,7 @@ import javax.ejb.Local;
 import entities.Ressource;
 import entities.Resume;
 import entities.Skill;
+import entities.User;
 @Local
 public interface RessourceServiceLocal {
 	public void persistRessource(Ressource res);
@@ -25,6 +26,7 @@ public interface RessourceServiceLocal {
 	public Resume getResourceResume(String id);
 	public List<Skill> getResourceSkills(String id);
 	public Map<String, Long> rankResourcesBySkillNumber();
+	public void persistUser(User u);
 	
 
 }

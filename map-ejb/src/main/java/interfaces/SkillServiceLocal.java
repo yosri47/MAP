@@ -18,5 +18,6 @@ public interface SkillServiceLocal {
 	public List<Skill> searchByName(String name);
 	public List<Skill> searchByCategory(String category);
 	public List<Skill> listAll();
+	public List<String> getCategories();
 
 }

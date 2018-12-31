@@ -44,7 +44,6 @@ public class SkillResource {
 	}
 
 	@DELETE
-	@Consumes(MediaType.TEXT_PLAIN)
 	public Response deleteSkill(@QueryParam(value = "id") String id) {
 		if (ss.removeSkillById(id) > 0) {
 			return Response.status(Status.OK).entity("Removed").build();
@@ -72,6 +71,13 @@ public class SkillResource {
 		} else {
 			return Response.status(Status.OK).entity(ss.listAll()).build();
 		}
+	}
+	@GET
+	@Path("/categories")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ListCategories()
+	{
+		return Response.status(Status.OK).entity(ss.getCategories()).build();
 	}
 
 }

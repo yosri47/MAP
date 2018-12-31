@@ -67,5 +67,10 @@ public class SkillService implements SkillServiceLocal {
 		TypedQuery<Skill> query = em.createQuery("SELECT s FROM Skill s",Skill.class);
 		return query.getResultList();
 	}
+	@Override
+	public List<String> getCategories() {
+		TypedQuery<String> query = em.createQuery("SELECT DISTINCT(s.category) from Skill s",String.class);
+		return query.getResultList();
+	}
 
 }
