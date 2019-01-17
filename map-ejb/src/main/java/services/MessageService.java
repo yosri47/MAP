@@ -100,6 +100,11 @@ em.merge(m);
 		return (List<Client>)query.getResultList();
 		}
 	
+	public List<Message>getMessagebyAdm(int m,int idcl) {
+		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.from_user_id ="+m+"and e.to_user_id ="+idcl,Message.class);
+		return (List<Message>)query.getResultList();
+		}
+	
 	public int removemessage(int m) {
 
 		Query   query = em.createQuery("DELETE FROM Message e  WHERE e.messageId = "+m);
