@@ -260,7 +260,7 @@ public Response getClientbyid(@QueryParam("idcl") int idcl) {
 		return Response.status(Status.OK).entity(mes).build();
 		
 }
-
+/***********/
 
 }
 
