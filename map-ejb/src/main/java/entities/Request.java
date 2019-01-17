@@ -61,29 +61,31 @@ public class Request  implements Serializable {
 	}
 
 
-	public Request(String duration, double cost, Date startDate, Date endDate, String typeressource, Boolean status) {
+
+
+
+	
+
+
+	public Request(int requestId, String duration, double cost, Date startDate, Date endDate, String typeressource,
+			Boolean status, Admin reqadmin, Client reqcl) {
 		super();
+		this.requestId = requestId;
 		this.duration = duration;
 		this.cost = cost;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.typeressource = typeressource;
-		Status = status;
-	}
-
-
-	public Request(String duration, double cost, Date startDate, Date endDate, String typeressource, Boolean status,
-			Admin reqadmin, Client reqcl) {
-		super();
-		this.duration = duration;
-		this.cost = cost;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.typeressource = typeressource;
-		Status = status;
+		this.Status = status;
 		this.reqadmin = reqadmin;
 		this.reqcl = reqcl;
 	}
+
+
+
+
+
+
 
 
 	public Boolean getStatus() {
@@ -91,9 +93,30 @@ public class Request  implements Serializable {
 	}
 
 
+
+
+
+
+
+
 	public void setStatus(Boolean status) {
 		Status = status;
 	}
+
+
+
+
+
+
+
+
+	public Request(int requestId) {
+		super();
+		this.requestId = requestId;
+	}
+
+
+	
 
 
 	public Request(String duration, double cost, String typeressource, Admin reqadmin, Client reqcl) {
@@ -103,6 +126,16 @@ public class Request  implements Serializable {
 		this.typeressource = typeressource;
 		this.reqadmin = reqadmin;
 		this.reqcl = reqcl;
+	}
+
+
+	public Request(String duration, double cost, Date startDate, Date endDate, String typeressource) {
+		super();
+		this.duration = duration;
+		this.cost = cost;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.typeressource = typeressource;
 	}
 
 
@@ -124,6 +157,12 @@ public class Request  implements Serializable {
 	public void setReqcl(Client reqcl) {
 		this.reqcl = reqcl;
 	}
+
+
+
+
+
+
 
 
 	public Request(int requestId, String duration, double cost, Date startDate, Date endDate, String typeressource) {

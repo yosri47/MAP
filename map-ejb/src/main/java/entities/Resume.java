@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Resume implements Serializable{
 	@Id
@@ -19,7 +21,8 @@ public class Resume implements Serializable{
 	private String note;
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Skill> skills;
-	@OneToOne
+	@JsonIgnore
+	@OneToOne(mappedBy="resume")
 	private Ressource owner;
 	public Resume() {
 		super();

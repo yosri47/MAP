@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -43,7 +44,6 @@ public class SkillResource {
 	}
 
 	@DELETE
-	@Consumes(MediaType.TEXT_PLAIN)
 	public Response deleteSkill(@QueryParam(value = "id") String id) {
 		if (ss.removeSkillById(id) > 0) {
 			return Response.status(Status.OK).entity("Removed").build();
@@ -60,7 +60,7 @@ public class SkillResource {
 		if (countcategory != null) {
 			return Response.status(Status.OK).entity(ss.getCountByCategory(countcategory)).build();
 		}else if(countname != null){
-			return Response.status(Status.OK).entity(ss.getCountByName(countname)).build();
+			return Response.status(Status.OK).entity("Deleted "+countname+ss.removeSkillById(countname)).build();
 		}else if (id != null) {
 			int idH = Integer.parseInt(id);
 			return Response.status(Status.OK).entity(ss.findSkill(idH)).build();
@@ -71,6 +71,20 @@ public class SkillResource {
 		} else {
 			return Response.status(Status.OK).entity(ss.listAll()).build();
 		}
+	}
+	@GET
+	@Path("/categories")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response ListCategories()
+	{
+		return Response.status(Status.OK).entity(ss.getCategories()).build();
+	}
+	@GET
+	@Path("/categories/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response CountCategory(@PathParam(value = "id") int id)
+	{
+		return Response.status(Status.OK).entity(ss.getCountByName(id)).build();
 	}
 
 }

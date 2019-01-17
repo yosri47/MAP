@@ -2,6 +2,7 @@ package entities;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +26,8 @@ public class Message implements Serializable{
 	private String object;
 	private String content;
 	private String type;
-   
+	@Temporal(TemporalType.DATE)
+	private Date dateSend;
 	
 	@ManyToOne
 	@JoinColumn (name="clsend" ,referencedColumnName="userId" )
@@ -39,9 +43,101 @@ public class Message implements Serializable{
 	@JoinColumn (name="rsrecu" ,referencedColumnName="userId")
 	private Ressource rsrecu;
 
+	@ManyToOne
+	@JoinColumn (name="adminsend" ,referencedColumnName="userId" )
+	private Admin adminsend;
+	
+
+	private String from_user_id;
+	private String to_user_id;
+	
+	private String message;
+
+	public Message(String from_user_id, String to_user_id, String message) {
+		super();
+		this.from_user_id = from_user_id;
+		this.to_user_id = to_user_id;
+		this.message = message;
+	}
+
+
+
+	public String getMessage() {
+		return message;
+	}
+
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
+
+	public String getFrom_user_id() {
+		return from_user_id;
+	}
+
+
+
+	public void setFrom_user_id(String from_user_id) {
+		this.from_user_id = from_user_id;
+	}
+
+
+
+	public String getTo_user_id() {
+		return to_user_id;
+	}
+
+
+
+	public void setTo_user_id(String to_user_id) {
+		this.to_user_id = to_user_id;
+	}
+
+
+
+	public Message(String content, Client clsend, Client clrecu) {
+		super();
+		this.content = content;
+		this.clsend = clsend;
+		this.clrecu = clrecu;
+	}
+
+
+
+	public Message(String object, String content, String type, Client clrecu, Admin adminsend,Date dateSend) {
+		super();
+		this.object = object;
+		this.content = content;
+		this.type = type;
+		this.clrecu = clrecu;
+		this.adminsend = adminsend;
+		this.dateSend=dateSend;
+	}
 	
 	
 
+	public Date getDateSend() {
+		return dateSend;
+	}
+
+
+
+	public void setDateSend(Date dateSend) {
+		this.dateSend = dateSend;
+	}
+
+
+
+	public Admin getAdminsend() {
+		return adminsend;
+	}
+
+	public void setAdminsend(Admin adminsend) {
+		this.adminsend = adminsend;
+	}
 
 	public Message(String object, String content, String type,Ressource rssend, Client clrecu) {
 		super();

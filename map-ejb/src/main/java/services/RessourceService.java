@@ -1,6 +1,8 @@
 package services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,6 +13,7 @@ import javax.persistence.TypedQuery;
 import entities.Ressource;
 import entities.Resume;
 import entities.Skill;
+import entities.User;
 import interfaces.RessourceServiceLocal;
 
 @Stateless
@@ -45,7 +48,7 @@ public class RessourceService implements RessourceServiceLocal {
 	@Override
 	public int removeResourceById(String id) {
 		int idS = Integer.parseInt(id);
-		Query query = em.createQuery("UPDATE Skill s SET s.active = 0");
+		Query query = em.createQuery("UPDATE Ressource r SET r.isActive = 0");
 		return query.setParameter("id", idS).executeUpdate();
 	}
 	@Override
@@ -106,6 +109,34 @@ public class RessourceService implements RessourceServiceLocal {
 				,Skill.class);
 		return query.setParameter("id", idR).getResultList();
 	}
-	
+	@Override
+	public Map<String, Long> rankResourcesBySkillNumber()
+	{
+		
+		TypedQuery<Object[]> q = em.createQuery(
+			    "SELECT r.userId, count(r.resume.skills) " +
+			    "FROM Ressource r JOIN r.resume cv " +
+			    "ORDER BY r.userId", Object[].class);
+
+			List<Object[]> resultList = q.getResultList();
+			Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
+			for (Object[] result : resultList)
+			  resultMap.put((String)result[0], (Long)result[1]);
+			return resultMap;
+			/*
+			 * TypedQuery<Object[]> q = em.createQuery(
+			    "SELECT res.name,size(res.resume.skills)" +
+			    " FROM Ressource res"+
+			    " ORDER BY size(res.resume.skills)", Object[].class);
+
+			return q.getResultList();
+			*/
+	}
+
+	@Override
+	public void persistUser(User u) {
+		em.persist(u);
+	}
+
 
 }

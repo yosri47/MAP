@@ -10,13 +10,16 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import entities.Admin;
 import entities.Client;
 import entities.Message;
+import entities.Ressource;
+import interfaces.MessageLocal;
 import interfaces.messageRemote;
 
 
 @Stateless 
-public class MessageService  implements messageRemote{
+public class MessageService  implements messageRemote, MessageLocal{
 	
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
@@ -28,7 +31,7 @@ public class MessageService  implements messageRemote{
 	
 
 	em.persist(m);
-		return m.getMessageId();
+		return 1;
 	}
 	@Override
 	public int modifier(Message m) {
@@ -81,12 +84,12 @@ em.merge(m);
 	}	}
 	
 	public List<Message>getMessagebysend(int m) {
-		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clsend.userId ="+m,Message.class);
+		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clsend.userId ="+m+"or e.rssend ="+m,Message.class);
 		return (List<Message>)query.getResultList();
 		}
 	public List<Message>getMessagebyrecu(int m) {
 		
-		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clrecu.userId ="+m,Message.class);
+		TypedQuery<Message> query = em.createQuery("select e from  Message e where e.clrecu.userId ="+m+"or e.rsrecu = "+m,Message.class);
 	if(	query.getResultList().isEmpty()){return null;}
 	else{
 		return (List< Message >)query.getResultList();
@@ -96,6 +99,14 @@ em.merge(m);
 		TypedQuery<Client> query = em.createQuery("select e.clsend from  Message e where e.clsend.userId ="+m,Client.class);
 		return (List<Client>)query.getResultList();
 		}
+	
+	public int removemessage(int m) {
+
+		Query   query = em.createQuery("DELETE FROM Message e  WHERE e.messageId = "+m);
+		return  query.executeUpdate() ;
+		}
+	
+	
 public Boolean verif(String chaine){
 	if(chaine.matches("[a-zA-Z]+")){
 		return true ;	}
@@ -110,5 +121,21 @@ public Boolean verifnum(int num){
 	else{
 			return false ;	}
 
+}
+@Override
+public Admin getAdminbyid(int m) {
+	TypedQuery<Admin> query = em.createQuery("select e from Admin e where e.userId ="+m,Admin.class);
+	if(	query.getResultList().isEmpty()){return null;}
+	else{
+		return (Admin)query.getSingleResult();
+	}	
+}
+
+public Ressource getressourcebyid(int m) {
+	TypedQuery<Ressource> query = em.createQuery("select e from Ressource e where e.userId ="+m,Ressource.class);
+	if(	query.getResultList().isEmpty()){return null;}
+	else{
+		return (Ressource)query.getSingleResult();
+	}	
 }
 }

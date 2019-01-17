@@ -1,12 +1,14 @@
 package interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
 import entities.Ressource;
 import entities.Resume;
 import entities.Skill;
+import entities.User;
 @Local
 public interface RessourceServiceLocal {
 	public void persistRessource(Ressource res);
@@ -23,6 +25,8 @@ public interface RessourceServiceLocal {
 	public List<Ressource> getRessourceByName(String name);
 	public Resume getResourceResume(String id);
 	public List<Skill> getResourceSkills(String id);
+	public Map<String, Long> rankResourcesBySkillNumber();
+	public void persistUser(User u);
 	
 
 }

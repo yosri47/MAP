@@ -48,9 +48,14 @@ public class SkillService implements SkillServiceLocal {
 		return query.setParameter("category", category).getSingleResult();
 	}
 	@Override
-	public long getCountByName(String name) {
-		TypedQuery<Long> query = em.createQuery("SELECT count(s) FROM Skill s WHERE s.name LIKE CONCAT('%',:name,'%')",Long.class);
-		return query.setParameter("name", name).getSingleResult();
+	public long getCountByName(int id) {
+		Skill s = new Skill();
+		try {
+			s = em.find(Skill.class, id);
+		}catch (Exception e) {
+		}
+		TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM Resume r where :name MEMBER OF r.skills)",Long.class);
+		return query.setParameter("name", s).getSingleResult();
 	}
 	@Override
 	public List<Skill> searchByName(String name) {
@@ -65,6 +70,12 @@ public class SkillService implements SkillServiceLocal {
 	@Override
 	public List<Skill> listAll() {
 		TypedQuery<Skill> query = em.createQuery("SELECT s FROM Skill s",Skill.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<String> getCategories() {
+		TypedQuery<String> query = em.createQuery("SELECT DISTINCT(s.category) from Skill s",String.class);
 		return query.getResultList();
 	}
 

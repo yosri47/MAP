@@ -7,10 +7,11 @@ import javax.ejb.Remote;
 
 import entities.Client;
 import entities.Message;
+import entities.Ressource;
 
 
 
-@Local
+@Remote
 public interface messageRemote {
 	public Boolean verif(String chaine);
 
@@ -27,4 +28,6 @@ public interface messageRemote {
 	public List<Message>getMessagebyrecu(int m);
 	public List<Message>getMessagebysend(int m) ;
 	public List<Client>getMessagebyClient(int m);
+	public Ressource getressourcebyid(int m);
+	public int removemessage(int m);
 }
