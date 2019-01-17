@@ -2,8 +2,10 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project implements Serializable{
@@ -43,21 +47,43 @@ public class Project implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="ownerId")
 	private Client owner;
-	@OneToMany
-	private List<Ressource> ressourcesList;
-	@OneToMany(mappedBy="project")
-	private List<Mandate> mandates;
-	@ManyToMany
-	private List<Skill> skillsRequired;
+	
+	
+	@OneToMany(mappedBy="project",fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Ressource> ressourcesList = new HashSet<>();
+	
+	
+	
+	@OneToMany(mappedBy="project",fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<Mandate> mandates = new HashSet<>() ;
+	
+	
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Skill> skillsRequired = new HashSet<>() ; 
 	@OneToOne
 	@JoinColumn(name="organigramId")
 	private Organigram organigram;
+	@Column(columnDefinition = "boolean default false")
+	private boolean approved;
+	
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
 	public Project() {
 		super();
 	}
-	public Project(int projectId, Date startDate, Date endDate, ProjectType projectType, double profitability, String note,
-			String address, int levioResources, int otherResources, Client owner, List<Ressource> ressourcesList,
-			List<Mandate> mandates, List<Skill> skillsRequired, Organigram organigram) {
+	
+	public Project(int projectId, Date startDate, Date endDate, ProjectType projectType, double profitability,
+			String note, String address, int levioResources, int otherResources, Client owner,
+			Set<Ressource> ressourcesList, Set<Mandate> mandates, Set<Skill> skillsRequired, Organigram organigram,
+			boolean approved) {
 		super();
 		this.projectId = projectId;
 		this.startDate = startDate;
@@ -73,6 +99,7 @@ public class Project implements Serializable{
 		this.mandates = mandates;
 		this.skillsRequired = skillsRequired;
 		this.organigram = organigram;
+		this.approved = approved;
 	}
 	public int getProjectId() {
 		return projectId;
@@ -135,24 +162,28 @@ public class Project implements Serializable{
 	public void setOwner(Client owner) {
 		this.owner = owner;
 	}
-	public List<Ressource> getRessourcesList() {
+
+	public Set<Ressource> getRessourcesList() {
 		return ressourcesList;
 	}
-	public void setRessourcesList(List<Ressource> ressourcesList) {
+	public void setRessourcesList(Set<Ressource> ressourcesList) {
 		this.ressourcesList = ressourcesList;
 	}
-	public List<Mandate> getMandates() {
+
+	
+
+	public Set<Mandate> getMandates() {
 		return mandates;
 	}
-	public void setMandates(List<Mandate> mandates) {
+	public void setMandates(Set<Mandate> mandates) {
 		this.mandates = mandates;
 	}
-	public List<Skill> getSkillsRequired() {
+	public Set<Skill> getSkillsRequired() {
 		return skillsRequired;
 	}
-	public void setSkillsRequired(List<Skill> skillsRequired) {
-		this.skillsRequired = skillsRequired;
-	}
+	public void setSkillsRequired(Set<Skill> skillsRequired) {
+		this.skillsRequired = skillsRequired; }
+	
 	public Organigram getOrganigram() {
 		return organigram;
 	}
@@ -177,7 +208,7 @@ public class Project implements Serializable{
 		result = prime * result + projectId;
 		result = prime * result + ((projectType == null) ? 0 : projectType.hashCode());
 		result = prime * result + ((ressourcesList == null) ? 0 : ressourcesList.hashCode());
-		result = prime * result + ((skillsRequired == null) ? 0 : skillsRequired.hashCode());
+		/*result = prime * result + ((skillsRequired == null) ? 0 : skillsRequired.hashCode());*/
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		return result;
 	}
@@ -242,7 +273,7 @@ public class Project implements Serializable{
 			if (other.skillsRequired != null)
 				return false;
 		} else if (!skillsRequired.equals(other.skillsRequired))
-			return false;
+			return false; 
 		if (startDate == null) {
 			if (other.startDate != null)
 				return false;

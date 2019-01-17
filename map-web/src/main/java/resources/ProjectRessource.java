@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,18 +21,30 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Client;
+import entities.Mandate;
 import entities.Project;
 import interfaces.ClientServiceLocale;
+import interfaces.OrganigramServiceLocale;
 import interfaces.ProjectServiceLocal;
 
 @Path("Projects")
 @RequestScoped
 public class ProjectRessource {
 	
-
+	@PersistenceContext(unitName="pidev-ejb")
+	EntityManager em;
 
 	@EJB(beanName = "ProjectService")
 	ProjectServiceLocal ps ;
+	
+	@EJB(beanName = "MandateService")
+	ProjectServiceLocal ms ;
+	
+	@EJB(beanName = "ClientService")
+	ClientServiceLocale cs;
+	
+	@EJB(beanName = "OrganigramService")
+	OrganigramServiceLocale os;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -93,9 +108,63 @@ public class ProjectRessource {
 		ps.mergeProject(p);
 		
 		return Response.status(Status.CREATED).entity("Project Updated succesfully").build(); }
+       
+	   @PUT
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   @Path("{idClient}/{idProject}")
+       public Response SetProjectOwnerAndApprove(@PathParam(value = "idClient") String idClient
+   			,@PathParam(value = "idProject") String idProject ) {
+		   
+		   // selectionner le projet dabord
+		   
+		   Project p = ps.findProject(Integer.parseInt(idProject));
+		   
+		   //Affecter le client 
+		   
+		   p.setOwner(cs.findClient(Integer.parseInt(idClient)));
+		   p.setApproved(true);
+		   
+		   //valider affectation
+		   
+		   ps.mergeProject(p);
+		   
+			return Response.status(Status.CREATED).entity("Project affected to client and approved").build(); 
+			
+	   }
+	   
+	   @PUT
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   @Path("Organigram/{idOrganigram}/{idProject}")
+       public Response SetProjectOrganigram(@PathParam(value = "idOrganigram") String idOrganigram
+   			,@PathParam(value = "idProject") String idProject ) {
+		   
+		   // selectionner le projet dabord
+		   
+		   Project p = ps.findProject(Integer.parseInt(idProject));
+		   
+		   //Affecter l'organigram
+		   
+		   p.setOrganigram(os.findOrganigram(Integer.parseInt(idOrganigram)));
+		   
+		   //valider affectation
+		   
+		   ps.mergeProject(p);
+		   
+			return Response.status(Status.CREATED).entity("Organigram affected to client").build(); 
+			
+	   }
+	   
+	  
+	  
+	   
+	   
+	   
+	   
+	   
+	   }
 
-        
+	
 
-	}
+
 
 

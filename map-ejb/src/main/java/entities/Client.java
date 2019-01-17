@@ -1,16 +1,25 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Client extends User implements Serializable{
@@ -18,9 +27,11 @@ public class Client extends User implements Serializable{
 
 	private ClientType clientType;
 	
+	
 	@Enumerated(EnumType.STRING)
 
 	private ClientCategory clientCategory;
+	
 
 	private String clientLogo;
 
@@ -28,9 +39,65 @@ public class Client extends User implements Serializable{
 
 	private String clientAddress;
 	
+	
+	@OneToMany(mappedBy = "reqcl", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+
+	private Set<Request>req ;
+	
+	@OneToMany(mappedBy = "clsend", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>sends ;
+   
+	@OneToMany(mappedBy = "clrecu", cascade = CascadeType.ALL ,fetch=FetchType.EAGER )	
+	private Set<Message>recu ;
+	
+    @JsonIgnore
+	public Set<Request> getReq() {
+		return req;
+	}
+
+	public void setReq(Set<Request> req) {
+		this.req = req;
+	}
+
+	public Client(int userId, ClientType clientType, ClientCategory clientCategory, String clientLogo,
+			String clientNote, String clientAddress) {
+		super(userId);
+		this.clientType = clientType;
+		this.clientCategory = clientCategory;
+		this.clientLogo = clientLogo;
+		this.clientNote = clientNote;
+		this.clientAddress = clientAddress;
+		
+	}
+    @JsonIgnore
+	public Set<Message> getSends() {
+		return sends;
+	}
+
+	public void setSends(Set<Message> sends) {
+		this.sends = sends;
+	}
+	@JsonIgnore
+	public Set<Message> getRecu() {
+		return recu;
+	}
+
+	public void setRecu(Set<Message> recu) {
+		this.recu = recu;
+	}
+
 	public Client() {
 		super();
 	}
+	
+	public Client(int userId) {
+		super(userId);
+	}
+	
+
+
+
+
 	public Client(ClientType clientType, ClientCategory clientCategory, String clientLogo,
 			String clientNote, String clientAddress) {
 		super();
