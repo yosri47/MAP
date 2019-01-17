@@ -1,11 +1,11 @@
 package services;
 
-import entities.Mandate;
-import entities.Project;
-import entities.Ressource;
+
+import entities.*;
 import interfaces.MandateServiceLocale;
 
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -13,49 +13,146 @@ import javax.persistence.TypedQuery;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @Stateless
 public class MandateService implements MandateServiceLocale {
 
 	@PersistenceContext(unitName="pidev-ejb")
 	EntityManager em;
+	RessourceService rs;
+	ProjectService ps;
+	Mail_API mail;
 
 
 	@Override
-	public void persistMandate(Mandate m) {
+	public void persistMandate(Mandate m) throws MessagingException {
 		m.setState(false);
-		System.out.println((double) calculateFee(m));
 		m.setFee((double) calculateFee(m));
+
+
 		em.persist(m);
+		mail.sendMail("olfa.rajah@esprit.tn","New Mandate","You were assigned to a new project following the acceptance of your profile by our client");
 
-	}
-
-	@Override
-	public Mandate findMandate(int id) {
-		return em.find(Mandate.class, id);
-
-	}
-
-	@Override
-	public boolean removeMandatet(int id) {
-		/*Query query = em.createQuery("DELETE FROM Mandate m WHERE m.resource.getUserId(): =id");
-
-		return query.executeUpdate();*/
-		Mandate mandate =em.find(Mandate.class, id) ;
-		if(em.find(Mandate.class, id) != null){
-			em.remove(mandate);
-			return true ;
 		}
-		return false ;
+	@Override
+	public List<Skill> getResourceSkills(int idR ) {
+
+		TypedQuery<Skill> query = em.createQuery("SELECT s "
+						+ "FROM Resume r JOIN r.skills s "
+						+ "WHERE r.owner.userId = :id"
+				,Skill.class);
+		return query.setParameter("id", idR).getResultList();
+	}
+
+
+	@Override
+	public Long getNumberEmployeesInMandates() {
+		String sql = "SELECT COUNT(r.id) FROM Ressource r WHERE r.availability='Unavailable'";
+		Query q = em.createQuery(sql);
+		Long count =(Long) q.getSingleResult();
+		return count;
+	}
+
+	@Override
+	public int numberOfResourcesToClient(int clientId) {
+		Client c=em.find(Client.class, clientId);
+		int numRes=0;
+		String sql = "Select p from Project p where p.owner.userId="+c.getUserId();
+		Query q = em.createQuery(sql);
+		List<Project> projects  =(List<Project>) q.getResultList();
+		for (Project p : projects){
+			String sql2="Select Count(distinct m.resource) from Mandate m where m.project.id="+p.getProjectId();
+			Query q2 = em.createQuery(sql2);
+			Long count = (Long)q2.getSingleResult();
+			numRes+=count;
+		}
+		return numRes;
+	}
+
+	@Override
+	public float mandateEfficiency(int mandateId) {
+		return 0;
+	}
+
+	@Override
+	public Mandate findMandate(int projectId,int resourceId) {
+		TypedQuery<Mandate> query = em.createQuery("SELECT  m FROM Mandate m where m.project.projectId= :projectId and m.resource.userId = :resourceId", Mandate.class);
+		query.setParameter("projectId",projectId);
+		query.setParameter("resourceId",resourceId);
+		return query.getSingleResult();
+
+
+	}
+
+
+
+	@Override
+	public int removeMandateByResource(int id) {
+		Query query = em.createQuery("DELETE FROM Mandate m WHERE m.resource.userId = :id ");
+
+		return query.setParameter("id",id).executeUpdate();
+
+	}
+	@Override
+	public int removeMandateByProject(int id) {
+		Query query = em.createQuery("DELETE FROM Mandate m WHERE m.project.projectId= :id");
+
+		return query.setParameter("id",id).executeUpdate();
+
 	}
 
 	@Override
 	public Mandate mergeMandate(Mandate c) {
 
 		return em.merge(c);
+	}
+
+	@Override
+	public List<Ressource> SearchResourceByProject(int projectId) {
+		Project project;
+		List<Skill> listSkillsRequired = this.getSkillsRequired(projectId);
+		List<Ressource> listeRecourceNeeded = new ArrayList<>();
+		TypedQuery<Project> query = em.createQuery("SELECT m FROM Project m where m.id=:pId", Project.class);
+		query.setParameter("pId", projectId);
+
+
+			project =query.getSingleResult();
+		TypedQuery<Ressource> query1 = em.createQuery("SELECT m FROM Ressource m where m.availability='Available'", Ressource.class);
+
+		List<Ressource> resources = query1.getResultList();
+
+			resources.forEach(e -> {
+				System.out.println(e.getName());
+						List<Skill> resourceskills = this.getRSkills(e.getUserId());
+						if (resourceskills.containsAll(listSkillsRequired)) {
+							listeRecourceNeeded.add(e);
+						}
+
+					}
+			);
+
+
+			return listeRecourceNeeded;
+
+
+	}
+
+	@Override
+	public List<Ressource> ResourceByProject(int projectId) {
+		TypedQuery<Ressource> query = em.createQuery("SELECT r FROM Ressource r WHERE r.project.projectId = :a",Ressource.class);
+		return query.setParameter("a", projectId).getResultList();
+	}
+
+	public List<Skill> getRSkills(int id) {
+
+		TypedQuery<Skill> query = em.createQuery("SELECT s "
+						+ "FROM Resume r JOIN r.skills s "
+						+ "WHERE r.owner.userId = :id"
+				,Skill.class);
+		return query.setParameter("id", id).getResultList();
 	}
 
 	@Override
@@ -67,7 +164,7 @@ public class MandateService implements MandateServiceLocale {
 	public int archiveMandate() {
 		Date today = new Date();
 		today.getTime();
-		Query query = em.createQuery("UPDATE Mandate m SET m.state=1 WHERE m.endDate <= NOW()");
+		Query query = em.createQuery("UPDATE Mandate m SET m.state=true WHERE m.endDate <= NOW()");
 
 		return query.executeUpdate();
 
@@ -75,19 +172,14 @@ public class MandateService implements MandateServiceLocale {
 	}
 
 	@Override
-	public Boolean alertMandate(Date endDate ) {
-		Date today = new Date();
-		//Date endDate = m.getEndDate();
-
-		long diff = Math.abs(endDate.getTime() - today.getTime());
-		long numberOfDay = (long) diff / (1000 * 60 * 60 * 24);
-		if (numberOfDay == 40) {
-			return true;
-		} else {
-
-			return false;
+	public List<Mandate>  alertMandate( ) {
+        TypedQuery<Mandate> query = em.createQuery("SELECT DISTINCT m FROM Mandate m WHERE DATEDIFF(m.endDate,DATE( NOW() ))BETWEEN 0 AND 40",Mandate.class);
+        return query.getResultList();
 		}
-	}
+
+
+
+
 
 	@Override
 	public Date getEndDate(int id) {
@@ -99,19 +191,20 @@ public class MandateService implements MandateServiceLocale {
 
 	@Override
 	public long getCountByProject(int idP) {
-		TypedQuery<Long> query = em.createQuery("SELECT count(*) FROM Mandate m WHERE m.project.getProjectId() = :id",Long.class);
-		return query.setParameter("id",idP).getSingleResult();
+		TypedQuery<Long> query = em.createQuery("select count(*) from Mandate m where "
+				+ "m.project.projectId=:project", Long.class);
+		return query.setParameter("project",idP).getSingleResult();
 	}
 
 	@Override
 	public long getCountByResource(int idR) {
-		TypedQuery<Long> query = em.createQuery("SELECT count(*) FROM Mandate m WHERE m.resource.getUserId() = :id",Long.class);
+		TypedQuery<Long> query = em.createQuery("SELECT count(*) FROM Mandate m WHERE m.resource.userId = :id",Long.class);
 		return query.setParameter("id",idR).getSingleResult();
 	}
 
 	@Override
 	public List<Mandate> getArchivedMandate() {
-		TypedQuery<Mandate> query = em.createQuery("SELECT DISTINCT m FROM Mandate m where m.state=1", Mandate.class);
+		TypedQuery<Mandate> query = em.createQuery("SELECT DISTINCT m FROM Mandate m where m.state=true", Mandate.class);
 		System.out.println(query.getResultList());
 		return query.getResultList();
 	}
@@ -154,34 +247,35 @@ public class MandateService implements MandateServiceLocale {
 		return em.find(Mandate.class, id);
 	}
 
-	@Override
-	public List<Mandate> searchMandateByProject(int id) {
-		return em.createQuery("select m from Mandate m where "
-				+ "m.projectId=:project", Mandate.class)
-				.setParameter("project", id).getResultList();
-	}
 
 	@Override
 	public float calculateFee(Mandate m) {
-		Ressource r=em.find(Ressource.class, 1);
+		Ressource r=em.find(Ressource.class, 2);
 		System.out.println(r.getName());
 		long diff = Math.abs(m.getEndDate().getTime() - m.getStartDate().getTime());
 		long numberOfDay = (long)diff/(1000 * 60 * 60 * 24);
 
-				Double salaryPerDay=r.getRate()/30;
+				float salaryPerDay= (float) (r.getRate()/30);
 		return (float) (salaryPerDay*1.8*numberOfDay);
 	}
 
 
 	@Override
-	public List<Mandate> getMandateByResource(int idResource) {
-		TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m WHERE m.idResource = :idResource",Mandate.class);
-		return query.setParameter("idResource", idResource).getResultList();
+	public List<Mandate> getMandateByResource(int id) {
+		return em.createQuery("select m from Mandate m where "
+				+ "m.resource.userId=:resource", Mandate.class)
+				.setParameter("resource", id).getResultList();
+	}
+
+	@Override
+	public List<Mandate> searchMandateByProject(int id) {
+		return em.createQuery("select m from Mandate m  where m.project.projectId =:project", Mandate.class)
+				.setParameter("project", id).getResultList();
 	}
 	@Override
 	public List<Mandate> getMandateByStartDate(String startDate) {
 		Date date = new Date();
-		TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m WHERE m.startDate > :startDate OR m.startDate = :startDate ORDER BY m.startDate",Mandate.class);
+		TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m WHERE m.startDate = :startDate ORDER BY m.startDate",Mandate.class);
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			date = formatter.parse(startDate);
@@ -194,7 +288,7 @@ public class MandateService implements MandateServiceLocale {
 	@Override
 	public List<Mandate> getMandateByendDate(String endDate) {
 		Date date = new Date();
-		TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m WHERE m.endDate > :endDate OR m.endDate = :endDate ORDER BY m.endDate",Mandate.class);
+		TypedQuery<Mandate> query = em.createQuery("SELECT m FROM Mandate m WHERE m.endDate = :endDate ORDER BY m.endDate",Mandate.class);
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			date = formatter.parse(endDate);
@@ -212,9 +306,20 @@ public class MandateService implements MandateServiceLocale {
 	@Override
 	public List<Mandate> listAll()
 	{
-		TypedQuery<Mandate> query = em.createQuery("SELECT DISTINCT m FROM Mandate m", Mandate.class);
+		TypedQuery<Mandate> query = em.createQuery("SELECT DISTINCT m FROM Mandate m WHERE m.state = false", Mandate.class);
 		System.out.println(query.getResultList());
 		return query.getResultList();
+	}
+
+@Override
+	public List<Skill> getSkillsRequired(int id) {
+
+
+		Query query = em.createQuery("SELECT p.skillsRequired  FROM Project p WHERE p.projectId = :id");
+
+		 query.setParameter("id", id);
+	List<Skill> skills= query.getResultList();
+	return skills;
 	}
 
 }
