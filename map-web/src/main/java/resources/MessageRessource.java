@@ -242,7 +242,15 @@ public Response getmessagebyrecu(@QueryParam("idrecu") int idmessage) {
 		return Response.status(Status.OK).entity(mes).build();
 		
 }
-
+@GET
+@Path("from")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getadminmes(@QueryParam("from") int id,@QueryParam("to") int idto) {
+	List<Message> mes = new ArrayList<>();
+	mes=  em.getMessagebyAdm(id,idto);
+		return Response.status(Status.OK).entity(mes).build();
+		
+}
 @GET
 @Path("client")
 @Produces(MediaType.APPLICATION_JSON)

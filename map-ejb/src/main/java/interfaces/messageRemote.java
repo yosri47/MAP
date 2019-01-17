@@ -18,7 +18,7 @@ public interface messageRemote {
 		public int ajouterMessage(Message m);
 	public int modifier (Message m);
 	public int delete (Message m);
-
+	public List<Message>getMessagebyAdm(int m, int idcl);
 	public List<Message> getall();
 	public Message getMessagebyid(int m);
 	public List<Message> getMessagebytype(String m);
