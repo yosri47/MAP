@@ -14,7 +14,7 @@ public interface SkillServiceLocal {
 	public boolean contains(Skill skill);
 	public int removeSkillById(String id);
 	public long getCountByCategory(String category);
-	public long getCountByName(String name);
+	public long getCountByName(int id);
 	public List<Skill> searchByName(String name);
 	public List<Skill> searchByCategory(String category);
 	public List<Skill> listAll();

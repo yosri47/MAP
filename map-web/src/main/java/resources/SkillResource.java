@@ -60,7 +60,7 @@ public class SkillResource {
 		if (countcategory != null) {
 			return Response.status(Status.OK).entity(ss.getCountByCategory(countcategory)).build();
 		}else if(countname != null){
-			return Response.status(Status.OK).entity(ss.getCountByName(countname)).build();
+			return Response.status(Status.OK).entity("Deleted "+countname+ss.removeSkillById(countname)).build();
 		}else if (id != null) {
 			int idH = Integer.parseInt(id);
 			return Response.status(Status.OK).entity(ss.findSkill(idH)).build();
@@ -78,6 +78,13 @@ public class SkillResource {
 	public Response ListCategories()
 	{
 		return Response.status(Status.OK).entity(ss.getCategories()).build();
+	}
+	@GET
+	@Path("/categories/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response CountCategory(@PathParam(value = "id") int id)
+	{
+		return Response.status(Status.OK).entity(ss.getCountByName(id)).build();
 	}
 
 }

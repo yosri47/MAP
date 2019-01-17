@@ -27,6 +27,7 @@ import services.ProjectService;
 @Path("resources")
 @RequestScoped
 public class RessourceResource {
+	
 	@EJB(beanName = "RessourceService")
 	private RessourceServiceLocal rs;
 	@POST
